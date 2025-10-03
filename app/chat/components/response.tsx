@@ -9,7 +9,7 @@ const Response = (props) => {
             const resp = await fetch("http://127.0.0.1:8000/chat",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
-                body: JSON.stringify({prompt:props.prompt}),
+                body: JSON.stringify({prompt:props.prompt}), // JSON.stringfy -> convert JS object to JSON string
             });
             if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
             const data = await resp.json();

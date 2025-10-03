@@ -11,8 +11,8 @@ BASE_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 @app.post("/chat")
 async def chat(request: Request):
-    data = await request.json()
-    prompt = data.get("prompt","")
+    data = await request.json() #json -> python dict
+    prompt = data.get("prompt","") #extract the prompt field
 
     headers = {
         "content-type": "application/json",
