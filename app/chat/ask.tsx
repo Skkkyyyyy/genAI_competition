@@ -7,6 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import '../global.css';
 import Message from './components/message';
 import Response from './components/response';
+import { supabase } from '../../lib/supabase';
+
 
 export default function ask() {
     const [text, setText] = useState(" ");
@@ -20,7 +22,6 @@ export default function ask() {
             setText("");
         }
     };
-
     console.log(myData);
     return(
         <SafeAreaView className='flex-1 h-full'>
@@ -29,7 +30,7 @@ export default function ask() {
                     <AntDesign name="left" size={24} color="black" />
                 </TouchableOpacity>
                 <View className='bg-blue-300 h-1/4 w-full p-6 justify-center'>
-                    <Text className='text-xl text-center'>人机交互</Text>
+                    <Text className='text-xl text-center'>LITTLE MATTHEW</Text>
                 </View>
 
                 {/*Contents*/}

@@ -10,8 +10,8 @@ export default function Index() {
   const router = useRouter();
   return (
     <SafeAreaView>
-      <View className="w-full bg-red-200 ">
-          <Text className="text-3xl text-center">Name</Text>
+      <View className="w-ful mt-2">
+          <Text className="text-3xl text-center font-bold ">Career Guru</Text>
       </View>
       <View className="flex-col h-4/5 my-auto">
         <Pressable 

@@ -8,6 +8,7 @@ export default function RootLayout() {
       <Stack.Screen name="chat/ask" options={{headerShown:false}}/>
       <Stack.Screen name="chat/form" options={{headerShown:false}}/>
       <Stack.Screen name="auth/auth" options={{headerShown:false}}/>
+      <Stack.Screen name="profiles/save" options={{headerShown:false}}/>
     </Stack>
   );
 }

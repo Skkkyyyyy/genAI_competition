@@ -13,6 +13,9 @@ const profile = () => {
       <TouchableOpacity onPress={()=>router.push('../auth/auth')} className='p-3 bg-gray-300 rounded-xl border-transparent border-0 self-center mt-20 justify-center'>
         <Text className='text-center font-bold text-lg'>Sign In / Sign Up</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={()=>router.push('../profiles/save')} className='p-3 bg-gray-300 rounded-xl border-transparent border-0 self-center mt-10 justify-center'>
+        <Text className='text-center font-bold text-lg'>View Saved Chats</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }
