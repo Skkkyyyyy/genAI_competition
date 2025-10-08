@@ -1,6 +1,8 @@
 {
   "Response Analysis": {
-    "1": "a"
+    "Category": "Given the following message, please determine which of these categories the message belongs to: 1. Providing personal information, 2. Question about their career, 3. Question about an industry. Please only respond with the number"
+    "1": ""
+
   },
   "Conversation Template": {
     "Greetings": [
