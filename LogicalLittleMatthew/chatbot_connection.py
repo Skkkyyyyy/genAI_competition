@@ -7,8 +7,8 @@ base_url = "https://api.deepseek.com/chat/completions"
 
 class Chatbot_Connection:
 
-    def __init__(self):
-        
+    def __init__(self, id_code):
+        self.code = id_code
 
     def chatbotResponse(prompt: str, preset: str):
         # Define the request headers

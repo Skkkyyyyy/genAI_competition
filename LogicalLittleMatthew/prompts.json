@@ -1,8 +1,60 @@
 {
-  "Framework 1": {
-
+  "Response Analysis": {
+    "1": "a"
   },
-  "Framework 2": {
+  "Conversation Template": {
+    "Greetings": [
+      "Hello!",
+      "Hi there.",
+      "Good morning.",
+      "Good afternoon.",
+      "Good evening.",
+      "Hey!",
+      "Howdy.",
+      "Greetings.",
+      "What's up?",
+      "How are you?",
+      "Nice to see you.",
+      "It's a pleasure to meet you.",
+      "Yo!",
+      "How's it going?",
+      "Welcome.",
+      "Salutations.",
+      "G'day!",
+      "What's new?",
+      "How do you do?",
+      "Long time no see."
+    ],
+    "Greeeting Follow-up": [
+      "Something on your mind?",
+      "What would you like to discuss today?",
+      "What have you been up to?",
+      "Anything interesting happen today?"
+    ],
+    "Conversation Starter": [
+      "What do you enjoy doing in your free time?",
+      "Have you read any good books or watched any great shows lately?",
+      "What's the most interesting thing you've learned recently?",
+      "If you could travel anywhere right now, where would you go?",
+      "What's something you're passionate about?",
+      "What was the highlight of your week?",
+      "What's a hobby you've always wanted to pick up?",
+      "What kind of music are you into these days?",
+      "What's the best meal you've ever had?",
+      "What's your favorite way to unwind after a long day?",
+      "Is there a skill you're currently trying to learn or improve?",
+      "What's the most beautiful place you've ever visited?",
+      "What's something that always makes you smile?",
+      "Are you working on any interesting projects right now?",
+      "What's your idea of a perfect weekend?",
+      "What's the most memorable concert or event you've attended?",
+      "If you could have dinner with anyone, living or historical, who would it be?",
+      "What's something you're looking forward to in the near future?",
+      "What's a small thing that makes your day better?",
+      "What's the best piece of advice you've ever received?"
+    ]
+  },
+  "Psychoanalysis Template": {
 
   }
 }
