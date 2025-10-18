@@ -48,8 +48,8 @@ const Response = (props) => {
     }
 
     return (
-        <View className='bg-gray-200 m-2 p-2 rounded-lg mt-5 flex-row items-center shadow shadow-gray-300'>
-            <Octicons className="m-1" name="dependabot" size={24} color="black" />
+        <View className='bg-bg2 m-2 p-2 rounded-lg mt-5 flex-row items-center shadow shadow-gray-300'>
+            <Octicons className="m-1" name="dependabot" size={24} style={{color:'#0f7d80'}} />
             <Text className='flex-1 text-left font-light m-1 p-1'>{generatedResponse}</Text>
             <TouchableOpacity onPress={handleSave} >
                 <Ionicons name="save-sharp" size={24} color="green" className="m-1" />

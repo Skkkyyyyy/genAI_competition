@@ -1,8 +1,8 @@
-import 'react-native-url-polyfill/auto';
-import 'whatwg-fetch';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
 import { Text, View } from 'react-native';
+import 'react-native-url-polyfill/auto';
+import 'whatwg-fetch';
 import "../global.css";
 
 const TabIcon = ({focused, focused_icon, icon, title}:any) => {
@@ -11,20 +11,20 @@ const TabIcon = ({focused, focused_icon, icon, title}:any) => {
         <View className= "h-full w-32 items-center">  
             <Ionicons
                 name = {focused_icon}
-                size = {28}
-                color= "gray"
+                size = {24}
+                style={{color:'#5296a5'}}
             />
-            <Text className='text-gray-500 mt-1 text-center text-base font-medium'>{title}</Text>
+            <Text className='text-secondary mt-1 text-center text-sm font-medium'>{title}</Text>
         </View>)
     }
     return(
         <View className="h-full w-32 items-center">
             <Ionicons
-                name={icon}
-                size={28}
-                color="gray"
+                name={focused_icon}
+                size={24}
+                style={{color:'#e4e4e4'}}
             />
-            <Text className='text-gray-500 mt-1 text-base font-medium'>{title}</Text>
+            <Text className='text-text mt-1 text-sm font-medium'>{title}</Text>
         </View>
     )
 }
@@ -43,7 +43,7 @@ export default function TabLayout() {
                 alignItems: 'center'
             },
             tabBarStyle:{
-                backgroundColor: 'white',
+                backgroundColor: '#ffffff',
                 borderRadius: 0,
                 marginHorizontal:0,
                 marginBottom:0,
@@ -68,7 +68,7 @@ export default function TabLayout() {
                         title = 'Forum' />
                 ) }} />
         <Tabs.Screen 
-            name="index" 
+            name="home" 
             options={{ 
                 title: 'Chat',
                 headerShown:false,

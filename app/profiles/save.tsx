@@ -9,7 +9,8 @@ import { supabase } from '../../lib/supabase';
 
 export default function Save() {
     const router = useRouter();
-    const [data, setData] = useState([]);
+    type Message = { message_id: string; question: string; response: string }
+    const [data, setData] = useState<Message[]>([]);
     const [showCross, setShowCross] = useState(false);
     
     //fetch data 
@@ -68,17 +69,17 @@ export default function Save() {
         </View>
         <FlatList
             data = {data}
-            renderItem={({item})=>
-                <View className='flex-row p-3 mx-2 bg-gray-200 my-2'>
+            renderItem={({item}:{item:Message})=>
+                    <View className='flex-row p-3 mx-2 bg-gray-200 my-2'>
                     <View className='flex-col p-2 w-11/12'>
-                        <Text className=''>{item.question.trim()}</Text>
-                        <Text>{item.response.trim()}</Text>
+                        <Text className=''>{String(item.question ?? '').trim()}</Text>
+                        <Text>{String(item.response ?? '').trim()}</Text>
                     </View>
                     {showCross && (<TouchableOpacity className='mx-2 flex-1 items-end justify-center ' onPress={()=>handleDelete(item.message_id)}>
                         <Entypo name="cross" size={24} color="black" />
                     </TouchableOpacity>)}
                 </View>}
-            keyExtractor={(item,index)=>index.toString()}
+            keyExtractor={(item: Message, index: number) => (item?.message_id ? String(item.message_id) : index.toString())}
             contentContainerClassName='pb-32'/>
     </SafeAreaView>
   )

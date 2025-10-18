@@ -1,26 +1,33 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '../../lib/supabase'
+import { useState } from 'react'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import Login from './components/Login'
-import Account from './components/Account'
-import { View } from 'react-native'
-import { Session } from '@supabase/supabase-js'
-
+import Signup from './components/Signup'
 export default function Auth() {
-  const [session, setSession] = useState<Session | null>(null)
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
+  const [isSignUp, setIsSignUp] = useState(true)
 
   return (
-    <View>
-      {session && session.user ? <Account key={session.user.id} session={session} /> : <Login />}
-    </View>
+    <SafeAreaView className='bg-primary flex-1'>
+      <View className="w-full mt-20 bg-primary items-center">
+        <Image
+          source={require('../../assets/images/Image.png')}
+          style={{width:400, height:55}}
+          resizeMode="contain"
+        />
+      </View>
+
+      <View className='mt-24 bg-bg2 rounded-t-3xl p-4'>
+        <View className='flex-row justify-evenly'>
+          <TouchableOpacity onPress={() => setIsSignUp(true)} className={`flex-1 px-4 py-3 rounded-2xl ${isSignUp ? 'bg-primary' : ''}`}>
+            <Text className={`${isSignUp ? 'text-bg2 font-bold text-center' : 'text-primary text-center font-bold'}`}>Sign Up</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsSignUp(false)} className={`flex-1 px-4 py-3 rounded-2xl ${!isSignUp ? 'bg-primary' : ''}`}>
+            <Text className={`${!isSignUp ? 'text-bg2 font-bold text-center' : 'text-primary text-center font-bold'}`}>Log In</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {isSignUp ? <Signup /> : <Login />}
+    </SafeAreaView>
   )
 }
