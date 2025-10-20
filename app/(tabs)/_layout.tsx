@@ -55,7 +55,7 @@ export default function TabLayout() {
             },
 
         }}>
-        <Tabs.Screen 
+        {/*<Tabs.Screen 
             name="forum" 
             options={{ 
                 title: 'Forum',
@@ -66,7 +66,7 @@ export default function TabLayout() {
                         focused_icon= 'people-sharp' 
                         icon = 'people-outline'
                         title = 'Forum' />
-                ) }} />
+                ) }} /> */}
         <Tabs.Screen 
             name="home" 
             options={{ 

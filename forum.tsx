@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native'
-import Auth from '../auth/auth'
+import Auth from './app/auth/auth'
 
 const forum = () => {
   return (

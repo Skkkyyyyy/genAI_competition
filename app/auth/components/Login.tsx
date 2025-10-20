@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, AppState, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, AppState, KeyboardAvoidingView, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { supabase } from '../../../lib/supabase';
+import { Platform } from 'react-native';
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
 // `onAuthStateChange` events with the `TOKEN_REFRESHED` or `SIGNED_OUT` event
@@ -33,8 +34,7 @@ export default function Signup() {
         return
       }
 
-      // Successful login — navigate to the app root (main page)
-      // use replace so the auth page is removed from the history stack
+      // Successful login — navigate to the app root (main pages)
       router.replace('/(tabs)/home')
     } finally {
       setLoading(false)
@@ -43,39 +43,46 @@ export default function Signup() {
 
 
   return (
-    <View className='bg-bg2 h-full'>
-      <Text className='mt-10 text-center font-bold text-2xl'>Welcome Back!</Text>
-      <View className='mx-auto w-10/12 mt-10'>
-        <Text className='font-medium text-gray-500'>Email</Text>
-        <TextInput
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          placeholder="email@address.com"
-          autoCapitalize={'none'}
-          className='mt-2 border border-primary rounded-3xl p-4'
-        />
+    <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 30 : 10}
+            className='flex-1'
+          >
+    <ScrollView className='h-full bg-bg2'>
+      <View className='bg-bg2 h-full'>
+          <Text className='mt-10 text-center font-bold text-2xl'>Welcome Back!</Text>
+          <View className='mx-auto w-10/12 mt-10'>
+            <Text className='font-medium text-gray-500'>Email</Text>
+            <TextInput
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+              placeholder="email@address.com"
+              autoCapitalize={'none'}
+              className='mt-2 border border-primary rounded-3xl p-4'
+            />
+          </View>
+          <View className='mx-auto w-10/12 mt-10'>
+            <Text className='font-medium text-gray-500'>Password</Text>
+            <TextInput
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+              secureTextEntry={true}
+              placeholder="Password"
+              autoCapitalize={'none'}
+              className='border border-primary rounded-3xl p-4 mt-2'
+            />
+          </View>
+          <View className='mt-10 mx-auto w-10/12 border-primary rounded-3xl p-4'>
+            <TouchableOpacity 
+              disabled={loading} 
+              onPress={() => signInWithEmail()}
+              className='bg-primary rounded-3xl p-3'>
+              <Text className='text-center font-bold text-bg2 text-xl'>Log In</Text>
+            </TouchableOpacity>
+          </View>
       </View>
-      <View className='mx-auto w-10/12 mt-10'>
-        <Text className='font-medium text-gray-500'>Password</Text>
-        <TextInput
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-          placeholder="Password"
-          autoCapitalize={'none'}
-          className='border border-primary rounded-3xl p-4 mt-2'
-        />
-      </View>
-      <View className='mt-10 mx-auto w-10/12 border-primary rounded-3xl p-4'>
-        <TouchableOpacity 
-          disabled={loading} 
-          onPress={() => signInWithEmail()}
-          className='bg-primary rounded-3xl p-3'>
-          <Text className='text-center font-bold text-bg2 text-xl'>Log In</Text>
-        </TouchableOpacity>
-      </View>
-    
-  </View>
+    </ScrollView>
+  </KeyboardAvoidingView>
   )
 }
 

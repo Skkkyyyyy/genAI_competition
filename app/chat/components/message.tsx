@@ -1,23 +1,29 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Text, View} from 'react-native';
-import insertMessage from './insertMessage';
 import { useEffect, useState } from 'react';
-import { supabase } from '../../../lib/supabase'
+import { StyleSheet, Text, View } from 'react-native';
+import { supabase } from '../../../lib/supabase';
 
-const Message = (props) => {
-    console.log(props);
+type MessageProps = {
+    message?: string
+}
+
+const Message: React.FC<MessageProps> = ({ message = '' }) => {
     const [userId, setUserId] = useState<string | null>(null);
+
     useEffect(() => {
         const fetchUser = async () => {
-            const {data} = await supabase.auth.getUser();
-            setUserId(data?.user?.id);
+            const { data } = await supabase.auth.getUser();
+            setUserId(data?.user?.id ?? null);
         };
         fetchUser();
-    },[]);
+    }, []);
+
     return (
-        <View className='bg-bg2 m-2 p-2 rounded-lg mt-5 flex-row items-center shadow shadow-gray-300'>
-            <Text className='flex-1 text-right font-light m-1 p-1'>{props.message}</Text>
-            <Ionicons name="person-circle-sharp" size={24} style={{color:'#0f7d80'}} className="m-1" />
+        <View className='flex-row items-center justify-end mt-2'>
+            <View className='bg-bg2 m-1 p-1 rounded-lg mt-2 items-center shadow shadow-gray-300'>
+                <Text className='text-right font-light m-1 p-1'>{message}</Text>
+            </View>
+            <Ionicons name="person-circle-sharp" size={26} style={{ color: '#5296a5' }} className='m-2 mt-2'/>
         </View>
     )
 }

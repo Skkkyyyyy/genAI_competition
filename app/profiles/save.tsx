@@ -57,12 +57,14 @@ export default function Save() {
     }
 
   return (
-    <SafeAreaView className='h-full bg-white'>
-        <View className='w-full flex-row items-center'>
-            <TouchableOpacity className="pl-3 py-2 mx-2" onPress={()=>router.back()}>
-                <AntDesign name="left" size={24} color="black" />
-            </TouchableOpacity>
-            <Text className='text-2xl text-center text-black font-bold'>Saved Chats</Text>
+    <SafeAreaView className='bg-bg1 h-full w-full'>
+        <View className='flex-row items-center justify-between px-4 py-3'>
+            <View className='flex-row items-center'>
+                <TouchableOpacity className="p-2 mr-2" onPress={()=>router.back()}>
+                    <AntDesign name="left" size={22} color="#111827" />
+                </TouchableOpacity>
+                <Text className='text-2xl font-bold'>Saved Chats</Text>
+            </View>
             <TouchableOpacity className = "py-3 mx-2 items-end flex-1">
                 <Ionicons name="trash-outline" size={24} color="black" className="absolute right-5" onPress= {handleCrossToggle}/>
             </TouchableOpacity>
@@ -70,13 +72,19 @@ export default function Save() {
         <FlatList
             data = {data}
             renderItem={({item}:{item:Message})=>
-                    <View className='flex-row p-3 mx-2 bg-gray-200 my-2'>
-                    <View className='flex-col p-2 w-11/12'>
-                        <Text className=''>{String(item.question ?? '').trim()}</Text>
-                        <Text>{String(item.response ?? '').trim()}</Text>
+                <View className='mx-auto flex-row p-3 bg-bg2 w-11/12 my-2 rounded-xl mt-2'>
+                    <View className='flex-col w-11/12 p-2 rounded-xl mx-auto'>
+                        <View>
+                            <Text className='font-medium text-lg '>Question</Text>
+                            <Text className='font-light text-sm'>{String(item.question ?? '').trim()}</Text>
+                        </View>
+                        <View>
+                            <Text className='mt-2 font-medium text-lg '>Answer</Text>
+                            <Text className='font-light text-sm'>{String(item.response ?? '').trim()}</Text>
+                        </View>
                     </View>
-                    {showCross && (<TouchableOpacity className='mx-2 flex-1 items-end justify-center ' onPress={()=>handleDelete(item.message_id)}>
-                        <Entypo name="cross" size={24} color="black" />
+                    {showCross && (<TouchableOpacity className='items-end justify-center ' onPress={()=>handleDelete(item.message_id)}>
+                        <Entypo name="cross" size={26} color="red" />
                     </TouchableOpacity>)}
                 </View>}
             keyExtractor={(item: Message, index: number) => (item?.message_id ? String(item.message_id) : index.toString())}

@@ -23,8 +23,12 @@ export default function ask() {
 
     return (
         <SafeAreaView className='flex-1 bg-tertiary'>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} className='flex-1'>
-                {/* Header */}
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 5 : 10}
+                className='flex-1'
+            >
+              
                 <View className='flex-row items-center justify-between px-4 py-3'>
                     <View className='flex-row items-center'>
                         <TouchableOpacity onPress={() => router.back()} className='p-2 mr-2'>
@@ -36,40 +40,36 @@ export default function ask() {
                     </View>
                 </View>
 
-                {/* Compact profile / hero */}
                 <View className='mx-4 my-3 rounded-2xl bg-primary p-4'>
                     <Text className='text-center text-white text-lg font-bold'>LITTLE MATTHEW</Text>
-                    <Text className='text-center text-white text-sm mt-1'>A friendly career coach</Text>
                 </View>
 
-                {/* Message list */}
                 <View className='flex-1 px-4'>
                     {myData.length === 0 ? (
                         <View className='flex-1 items-center justify-center'>
-                            <Text className='text-gray-400'>No messages yet — start the conversation</Text>
+                            <Text className='text-gray-400'>start the conversation</Text>
                         </View>
                     ) : (
                                     <FlatList<string>
-                                        data={myData}
+                                        data={[...myData].reverse()}
                                         keyExtractor={(_item: string, index: number) => index.toString()}
+                                        keyboardShouldPersistTaps='handled'
+                                        contentContainerStyle={{ paddingBottom: 140 }}
                                         renderItem={({ item }: { item: string }) => (
-                                            <View className='mb-4'>
-                                                <View className='bg-bg2 rounded-2xl p-3'>
+                                            <View className='mt-1'>
+                                                <View >
                                                     <Message message={item} />
                                                 </View>
-                                                <View className='mt-2'>
+                                                <View>
                                                     <Response prompt={item} />
                                                 </View>
                                             </View>
                                         )}
-                                        inverted={true}
-                                        contentContainerClassName='pb-36 pt-2'
                                     />
                     )}
                 </View>
-
-                {/* Composer */}
-                <View className='absolute left-0 right-0 bottom-4 px-4'>
+                {/* Composer (placed in normal layout so KeyboardAvoidingView can move it) */}
+                <View className='px-4 py-4'>
                     <View className='flex-row items-center bg-white rounded-full p-2 shadow-lg'>
                         <TouchableOpacity className='p-2'>
                             <Ionicons name='add' size={22} style={{ color: '#0f7d80' }} />

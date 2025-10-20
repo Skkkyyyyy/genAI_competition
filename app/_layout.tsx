@@ -16,6 +16,7 @@ export default function RootLayout() {
       <Stack.Screen name="auth/components/ProfileSetup" options={{headerShown:false}}/>
       <Stack.Screen name="profiles/userProfile" options={{headerShown:false}}/>
       <Stack.Screen name="profiles/save" options={{headerShown:false}}/>
+      <Stack.Screen name="profiles/editProfile" options={{headerShown:false}}/>
     </Stack>
   );
 }

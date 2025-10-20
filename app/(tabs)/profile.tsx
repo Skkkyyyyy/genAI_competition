@@ -10,7 +10,7 @@ export default function ProfileTab() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Step 1: 初始化讀取 session
+  
     const init = async () => {
       const { data } = await supabase.auth.getSession();
       setUser(data.session?.user ?? null);
@@ -18,16 +18,13 @@ export default function ProfileTab() {
     };
     init();
 
-    // Step 2: 監聽登入/登出
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
-    // Step 3: 清理監聽
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  // Step 4: 渲染
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">

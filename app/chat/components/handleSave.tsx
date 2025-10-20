@@ -8,9 +8,28 @@ export async function insertMessage(user_id: string, question:string, response:s
             .select();
         console.log('Message inserted:', data);
         if (error) throw error;
+        // return the inserted row (or rows)
+        return data;
     }
     catch (error) {
         console.error('Error inserting message:', error);
+        return null;
+    }
+}
+
+export async function deleteMessage(user_id: string, message_id: string) {
+    try {
+        const { error } = await supabase
+            .from('messages')
+            .delete()
+            .eq('user_id', user_id)
+            .eq('message_id', message_id);
+        if (error) throw error;
+        console.log('Message deleted:', message_id);
+        return true;
+    } catch (err) {
+        console.error('Error deleting message:', err);
+        return false;
     }
 }
 
