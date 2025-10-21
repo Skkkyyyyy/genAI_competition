@@ -47,12 +47,12 @@ class Chatbot_Connection:
         else:
             print("Preset not yet initialised")
 
-def test():
-    test = Chatbot_Connection("0001")
-    test.set_preset("You are a person having a normal conversation")
-    while True:
-        print(test.chat_history)
-        print(test.chatbotResponse(input()))
-
-test()
+# def test():
+#     test = Chatbot_Connection("0001")
+#     test.set_preset("You are a person having a normal conversation")
+#     while True:
+#         print(test.chat_history)
+#         print(test.chatbotResponse(input()))
+#
+# test()
 
