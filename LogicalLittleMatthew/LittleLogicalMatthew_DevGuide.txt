@@ -1,0 +1,3 @@
+Chatbot Connections
+0 - Main bot used for interfacing with the chat UI
+1 - Used for analysing user responses and combining with psychoanalytic framework

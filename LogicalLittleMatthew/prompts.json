@@ -1,0 +1,87 @@
+{
+  "Response Analysis": {
+    "Category": "Given the following message, please determine which of these categories the message belongs to: 1. Providing personal information, 2. Question about their academics, 3. Question about an industry/company. 4. Question about a university. 5. Talking about personal interests. 6. General conversation. Please only respond with the number. If you are not sure give -1.",
+    "1": "What personal information are they providing? Please provide in this format. [type]|[information itself]",
+    "2": {
+      "Starter": "Is the user asking for 1. specific information on a topic or 2. just general advice?",
+      "1": {
+        "Starter": "Determine the school, subject or curriculum and give just 1 keyword, no capitals"
+      },
+      "2": "Could you be please be more specific? Say with what schools, subjects or high school curriculums you're considering?"
+    },
+    "3": {
+      "Starter": "Please determine the 1. industry, 2. company 3. followup that the user is inquiring about. If unsure then respond with 4",
+      "1": "Please give a short maximum 200 word description on the industry and the type of work one does in it. Please also include information on what type of university degrees traditionally find work in this industry",
+      "2": "Please give a short maximum 200 word description on the company. Include key information such as name, primary office location and major business operations/industries",
+      "3": "Please answer the user's inquiry in the context of the previously inquired companies, jobs/positions and/or industries. If there are none please give 1",
+      "4": "Could you please clarify what you want to know? Please ask regarding a specific industry or company."
+    },
+    "4": {
+      "Starter": "Please determine the university that the user is referring to, give the full proper name. If you are unsure then return -1",
+      "-1": "Could you clarify which university that you are inquiring about? Please provide the full name if you can.",
+      "1": {
+        "Starter": "Please determine if the user is inquiring regarding a specific subject or faculty. If so please provide the full name. If not then return 2",
+        "2": "Please give a short maximum 100 word description on the following university. Please include details like what subjects/fields they are known for and the kind of student culture they have."
+      }
+    }
+  },
+  "Conversation Template": {
+    "Greetings": [
+      "Hello!",
+      "Hi there.",
+      "Good morning.",
+      "Good afternoon.",
+      "Good evening.",
+      "Hey!",
+      "Howdy.",
+      "Greetings.",
+      "What's up?",
+      "How are you?",
+      "Nice to see you.",
+      "It's a pleasure to meet you.",
+      "Yo!",
+      "How's it going?",
+      "Welcome.",
+      "Salutations.",
+      "G'day!",
+      "What's new?",
+      "How do you do?",
+      "Long time no see."
+    ],
+    "Greeeting Follow-up": [
+      "Something on your mind?",
+      "What would you like to discuss today?",
+      "What have you been up to?",
+      "Anything interesting happen today?"
+    ],
+    "Conversation Starter": [
+      "What do you enjoy doing in your free time?",
+      "Have you read any good books or watched any great shows lately?",
+      "What's the most interesting thing you've learned recently?",
+      "If you could travel anywhere right now, where would you go?",
+      "What's something you're passionate about?",
+      "What was the highlight of your week?",
+      "What's a hobby you've always wanted to pick up?",
+      "What kind of music are you into these days?",
+      "What's the best meal you've ever had?",
+      "What's your favorite way to unwind after a long day?",
+      "Is there a skill you're currently trying to learn or improve?",
+      "What's the most beautiful place you've ever visited?",
+      "What's something that always makes you smile?",
+      "Are you working on any interesting projects right now?",
+      "What's your idea of a perfect weekend?",
+      "What's the most memorable concert or event you've attended?",
+      "If you could have dinner with anyone, living or historical, who would it be?",
+      "What's something you're looking forward to in the near future?",
+      "What's a small thing that makes your day better?",
+      "What's the best piece of advice you've ever received?"
+    ],
+    "Request Clarification": [
+      "I'm not sure I understand what you're referring to.",
+      "Could you please be more specific?"
+    ]
+  },
+  "Psychoanalysis Template": {
+
+  }
+}
