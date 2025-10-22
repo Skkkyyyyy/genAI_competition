@@ -28,7 +28,7 @@ class Chatbot_Connection:
         if self.initialised:
             self.chat_history.append({"role": "user", "content": f'{prompt}'})
 
-            print("Calling chatbot")
+            # print("Calling chatbot")
             try:
                 # Make a POST request to the API
                 response = requests.post(base_url, headers=self.headers, json=self.payload)

@@ -4,7 +4,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
-from LogicalLittleMatthew.little_logical_matthew import LittleLogicalMatthew
+from chatbots.little_logical_matthew import LittleLogicalMatthew
 
 load_dotenv()
 
