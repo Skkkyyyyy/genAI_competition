@@ -5,8 +5,10 @@ import { useState } from 'react'
 import { FlatList, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import '../global.css'
+import BasicUsageExample from './components/emoji-feedback-example'
 import Message from './components/message'
 import Response from './components/response'
+import EmojiFeedbackComponent from './components/emoji-feedback'
 
 
 export default function ask() {
@@ -20,7 +22,11 @@ export default function ask() {
             setText('')
         }
     }
-
+    const handleKeywordMatch = (keyword: string, feedback: { message: string }) => {
+    // 可以在这里添加你的业务逻辑
+    console.log(`用户输入了关键词: ${keyword}`);
+    console.log(`系统回复: ${feedback.message}`);
+    };
     return (
         <SafeAreaView className='flex-1 bg-tertiary'>
             <KeyboardAvoidingView
@@ -40,8 +46,9 @@ export default function ask() {
                     </View>
                 </View>
 
-                <View className='mx-4 my-3 rounded-2xl bg-primary p-4'>
-                    <Text className='text-center text-white text-lg font-bold'>LITTLE MATTHEW</Text>
+                <View className='mt-3 h-72 mx-auto'>
+                    <EmojiFeedbackComponent 
+                        onKeywordMatch={handleKeywordMatch}/>
                 </View>
 
                 <View className='flex-1 px-4'>

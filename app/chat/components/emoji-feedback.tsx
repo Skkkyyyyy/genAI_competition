@@ -69,14 +69,19 @@ const SUGGESTIONS = [
   'sad', 'success', 'love', 'music', 'gaming'
 ];
 
-const EmojiFeedbackComponent = ({ onKeywordMatch, containerStyle }) => {
+type Feedback = { emoji: string; message: string };
+type Props = {
+  onKeywordMatch?: (keyword: string, feedback: Feedback) => void;
+};
+
+const EmojiFeedbackComponent = ({ onKeywordMatch}: Props) => {
   const [keyword, setKeyword] = useState('');
   const [feedback, setFeedback] = useState(KEYWORD_MAP.default);
   const [matchedKeyword, setMatchedKeyword] = useState('none');
   const [bounceAnim] = useState(new Animated.Value(0));
 
   // 根据关键词类型获取不同的背景色
-  const getFeedbackColor = (keyword) => {
+  const getFeedbackColor = (keyword: string) => {
     const positiveKeywords = ['happy', 'glad', 'joy', 'excited', 'satisfied', 'confident', 'love', 'like',
                              'success', 'completed', 'celebration', 'victory', 'award'];
     const negativeKeywords = ['sad', 'upset', 'disappointed', 'angry', 'worried', 'anxious', 'scared', 'stressed'];
@@ -90,7 +95,7 @@ const EmojiFeedbackComponent = ({ onKeywordMatch, containerStyle }) => {
     }
   };
 
-  const processKeyword = (input) => {
+  const processKeyword = (input: string) => {
     setKeyword(input);
     
     if (input.trim().length === 0) {
@@ -135,18 +140,16 @@ const EmojiFeedbackComponent = ({ onKeywordMatch, containerStyle }) => {
     ]).start();
   };
 
-  const handleSuggestionPress = (suggestion) => {
+  const handleSuggestionPress = (suggestion: string) => {
     setKeyword(suggestion);
     processKeyword(suggestion);
   };
 
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View style={[styles.container]}>
       <View style={styles.content}>
-        <Text style={styles.title}>Keyword Emoji Feedback</Text>
-        <Text style={styles.subtitle}>Enter keywords to get emoji feedback</Text>
-        
-        <View style={styles.inputContainer}>
+        <Text className='text-base text-gray-600'>How are you feeling right now?</Text>
+        <View className='my-2'>
           <TextInput
             style={styles.keywordInput}
             placeholder="Enter keywords like: happy, coding, love, confused..."
@@ -186,12 +189,6 @@ const EmojiFeedbackComponent = ({ onKeywordMatch, containerStyle }) => {
             </TouchableOpacity>
           ))}
         </ScrollView>
-        
-        <View style={styles.statusContainer}>
-          <Text style={styles.statusText}>
-            Matched keyword: <Text style={styles.keywordText}>{matchedKeyword}</Text>
-          </Text>
-        </View>
       </View>
     </View>
   );
@@ -205,15 +202,15 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   content: {
-    backgroundColor: 'white',
+     //#eaf5f7
     borderRadius: 20,
-    padding: 30,
+    padding: 20,
     width: width - 40,
     maxWidth: 500,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.2,
-    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
     elevation: 10,
   },
   title: {
@@ -234,28 +231,28 @@ const styles = StyleSheet.create({
   },
   keywordInput: {
     width: '100%',
-    padding: 15,
+    padding: 10,
     borderWidth: 2,
     borderColor: '#e1e5e9',
     borderRadius: 12,
-    fontSize: 16,
+    fontSize: 12,
     backgroundColor: 'white',
   },
   feedbackContainer: {
-    minHeight: 180,
+    minHeight: 120,
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 25,
-    padding: 20,
+    marginVertical: 5,
+    padding: 10,
     borderRadius: 15,
     backgroundColor: '#f8f9fa',
   },
   emoji: {
-    fontSize: 70,
+    fontSize: 50,
     marginBottom: 15,
   },
   message: {
-    fontSize: 18,
+    fontSize: 15,
     color: '#333',
     fontWeight: '500',
     textAlign: 'center',
@@ -266,7 +263,7 @@ const styles = StyleSheet.create({
   suggestionChip: {
     backgroundColor: '#f1f3f5',
     borderRadius: 20,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     paddingVertical: 8,
     marginHorizontal: 5,
   },

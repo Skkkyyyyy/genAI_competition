@@ -69,7 +69,7 @@ const Response: React.FC<ResponseProps> = ({ prompt }) => {
 
     return (
         <>
-        <View className='flex-row items-center mt-2'>
+        <View className='flex-row items-center mt-2 max-w-80'>
             <Octicons className="m-2 mt-2" name="dependabot" size={26} style={{color:'#5296a5'}} />
             <View className='bg-bg2 m-1 p-1 rounded-lg mt-2 items-center shadow shadow-gray-300'>
                 <Text className='flex-1 text-left font-light m-1 p-1'>{generatedResponse}</Text>

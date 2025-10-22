@@ -1,6 +1,6 @@
 // Chat home
 import { useRouter } from 'expo-router'
-import { Image, Pressable, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Pressable, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import 'react-native-url-polyfill/auto'
 import 'whatwg-fetch'
@@ -23,6 +23,19 @@ export default function Index() {
       <View className='px-4 space-y-4'>
         <Pressable
           className='mt-10 flex-row items-center bg-white rounded-2xl p-4 shadow border-l-8 border-primary'
+          onPress={() => router.push('/chat/form')}
+        >
+          <View className='bg-primary rounded-xl p-3 mr-4'>
+            <Text className='text-bg2 font-bold text-2xl'>📝</Text>
+          </View>
+          <View className='flex-1'>
+            <Text className='text-lg font-semibold'>Personalized recommendations</Text>
+            <Text className='text-sm text-gray-500 mt-1'>Fill a short form to receive tailored career and major suggestions.</Text>
+          </View>
+        </Pressable>
+
+        <Pressable
+          className='mt-10 flex-row items-center bg-white rounded-2xl p-4 shadow border-l-8 border-primary'
           onPress={() => router.push('/chat/ask')}
         >
           <View className='bg-primary rounded-xl p-3 mr-4'>
@@ -36,16 +49,19 @@ export default function Index() {
 
         <Pressable
           className='mt-10 flex-row items-center bg-white rounded-2xl p-4 shadow border-l-8 border-primary'
-          onPress={() => router.push('/chat/form')}
+          onPress={() => router.push('/try-a-major')}
         >
           <View className='bg-primary rounded-xl p-3 mr-4'>
-            <Text className='text-bg2 font-bold text-2xl'>📝</Text>
+            <Text className='text-bg2 font-bold text-2xl'>🎓</Text>
           </View>
           <View className='flex-1'>
-            <Text className='text-lg font-semibold'>Personalized recommendations</Text>
-            <Text className='text-sm text-gray-500 mt-1'>Fill a short form to receive tailored career and major suggestions.</Text>
+            <Text className='text-lg font-semibold'>Try-A-Major</Text>
+            <Text className='text-sm text-gray-500 mt-1'>Discover, experience, and feel your fit - before you decide.</Text>
           </View>
         </Pressable>
+
+
+
       </View>
 
     </SafeAreaView>

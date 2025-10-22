@@ -1,13 +1,11 @@
 // examples/BasicUsageExample.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
-import EmojiFeedbackComponent from '../src/components/EmojiFeedbackComponent';
+import EmojiFeedbackComponent from './emoji-feedback';
 
 const BasicUsageExample = () => {
-  const [lastMatched, setLastMatched] = useState('None');
 
-  const handleKeywordMatch = (keyword, feedback) => {
-    setLastMatched(keyword);
+  const handleKeywordMatch = (keyword: string, feedback: { message: string }) => {
     // 可以在这里添加你的业务逻辑
     console.log(`用户输入了关键词: ${keyword}`);
     console.log(`系统回复: ${feedback.message}`);
@@ -15,14 +13,9 @@ const BasicUsageExample = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Emoji Feedback Demo</Text>
-      <Text style={styles.subHeader}>Last matched keyword: {lastMatched}</Text>
-      
       <EmojiFeedbackComponent 
         onKeywordMatch={handleKeywordMatch}
-        containerStyle={styles.componentContainer}
       />
-      
       <View style={styles.tipsContainer}>
         <Text style={styles.tipsTitle}>Try these keywords:</Text>
         <Text style={styles.tipsText}>

@@ -17,6 +17,9 @@ export default function RootLayout() {
       <Stack.Screen name="profiles/userProfile" options={{headerShown:false}}/>
       <Stack.Screen name="profiles/save" options={{headerShown:false}}/>
       <Stack.Screen name="profiles/editProfile" options={{headerShown:false}}/>
+      <Stack.Screen name="try-a-major/index" options={{headerShown:false}}/>
+      <Stack.Screen name="try-a-major/simulate" options={{headerShown:false}}/>
+      <Stack.Screen name="try-a-major/run" options={{headerShown:false}}/>
     </Stack>
   );
 }
