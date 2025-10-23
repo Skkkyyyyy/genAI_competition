@@ -14,6 +14,7 @@ import traceback
 logging.basicConfig(level=logging.DEBUG)
 app = FastAPI()
 llm = LittleLogicalMatthew()
+sim_manager = SimulationManager()
 
 app.add_middleware(
     CORSMiddleware,
@@ -39,13 +40,31 @@ async def chat(request: Request, payload: ChatRequest):
         logging.error("Error in /llm/chat: %s\n%s", e, traceback.format_exc())
         return {"error": "internal_server_error", "detail": str(e)}
 
-@app.get("/")
-async def root():
-    return {"message": "FastAPI server is running!"}
+@app.post("/sim/start_sim")
+async def act(request: Request, payload: ChatRequest):
+    try:
+        client_host = request.client.host if request.client else "unknown"
+        logging.debug("Incoming /sim/action from %s payload=%s", client_host, payload)
+        # If analyse_response is synchronous it's fine; wrap it to catch exceptions
+        result = {"response": sim_manager.start_sim(payload.prompt)}
+        logging.debug("LLM result: %s", result)
+        return result
+    except Exception as e:
+        logging.error("Error in /llm/chat: %s\n%s", e, traceback.format_exc())
+        return {"error": "internal_server_error", "detail": str(e)}
 
-@app.get("/health")
-async def health():
-    return {"status": "healthy"}
+@app.post("/sim/action")
+async def act(request: Request, payload: ChatRequest):
+    try:
+        client_host = request.client.host if request.client else "unknown"
+        logging.debug("Incoming /sim/action from %s payload=%s", client_host, payload)
+        # If analyse_response is synchronous it's fine; wrap it to catch exceptions
+        result = {"response": sim_manager.user_response(payload.prompt)}
+        logging.debug("LLM result: %s", result)
+        return result
+    except Exception as e:
+        logging.error("Error in /llm/chat: %s\n%s", e, traceback.format_exc())
+        return {"error": "internal_server_error", "detail": str(e)}
 
 if __name__ == "__main__":
     # Use 0.0.0.0 so devices/emulators can reach this machine. Use port 8000 to match your client.

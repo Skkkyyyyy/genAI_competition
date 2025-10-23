@@ -27,7 +27,7 @@
     }
   },
   "Simulation Template": {
-    "Initial": "You will be given a situation to simulate. The user will first be provided an initial event to which they will provide a response. Your job is to analyse this response, provide feedback and then continue the simulation for a further 5 events. The feedback format should be Action Result+New Conflict/Event|Reflection Questions. The situation is ",
+    "Initial": "You will be given a situation to simulate. The user will first be provided an initial event to which they will provide a response. Your job is to analyse this response, provide feedback and then continue the simulation for a further 5 events. The feedback format should be Action Result, New Conflict/Event, Reflection Questions in json. The situation is ",
     "User Response": "This is the user's response to the given situation. Please provide feedback as instructed.",
     "End Simulation": "This is the user's response to the given situation. Please provide feedback as instructed and an appropriate ending to the simulation."
   },

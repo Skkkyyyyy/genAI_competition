@@ -17,3 +17,25 @@ class SimulationManager:
             del self.simulations[self.current_sim]
             self.current_sim = 0
         return reply
+
+def test():
+    tester = SimulationManager()
+
+    while True:
+        sims = ""
+        for sim in tester.simulations:
+            sims += sim + ", "
+        input_ = input(f'Current simulations: {sims}')
+        if input_ == "end":
+            break
+
+        if len(tester.simulations) == 0:
+            tester.start_sim(input_)
+            continue
+
+        try:
+            tester.current_sim = int(input_)
+        except Exception as e:
+            print("enter index for sim")
+            continue
+

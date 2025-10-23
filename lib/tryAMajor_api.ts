@@ -57,7 +57,7 @@ export async function generateNextScene(p: GenerateParams): Promise<GenerateResu
 	try {
 		// Try /simulate/next first (recommended)
 		const payload = { scenarioId: p.scenarioId, round: p.round, studentAnswer: p.studentAnswer, previousConflict: p.previousConflict, scenarioPrompt: p.scenarioPrompt, promptType: p.promptType, isFinal: p.isFinal }
-		const body = await postJson('/simulate/next', payload)
+		const body = await postJson('/sim/action', payload)
 		// If backend returns structured JSON, pass it through
 		if (body && (body.actionResult || body.sceneChange || body.reflectionPrompts)) {
 			return { actionResult: body.actionResult, sceneChange: body.sceneChange, reflectionPrompts: body.reflectionPrompts, raw: body }
@@ -70,13 +70,27 @@ export async function generateNextScene(p: GenerateParams): Promise<GenerateResu
 		// If /simulate/next isn't available, fall back to /chat
 		try {
 			const prompt = buildPromptForChat(p)
-			const chatBody = await postJson('/chat', { prompt })
+			const chatBody = await postJson('/llm/chat', { prompt })
 			const text = chatBody?.choices?.[0]?.message?.content ?? chatBody?.result ?? chatBody?.text ?? JSON.stringify(chatBody)
 			return parseAiText(String(text))
 		} catch (err2) {
 			console.error('generateNextScene error', err, err2)
 			throw err2
 		}
+	}
+}
+
+export async function initialiseScenario(scenario: string) {
+	try {
+		await fetch ("http://localhost:8000/sim/start_sim",{
+			method:"POST",
+			headers:{"Content-Type":"application/json"},
+			body: JSON.stringify({ scenario_id: scenario }), // send the scenario id
+		}
+		)
+	} catch (err) {
+		console.error('initialiseScenario error', err);
+		throw err;
 	}
 }
 

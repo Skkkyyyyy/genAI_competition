@@ -23,7 +23,9 @@ class CareerSim:
 def test():
     tester = CareerSim("You are a primary school teacher who has just entered the classroom. Some students are playing, chatting and messing around, while only a few are quietly working on their assignments. The classroom is noisy but lively. How would you restore order to the classroom?")
     tester.initialise_simulation()
+    print(tester.situation)
     for i in range(6):
-        print(tester.user_response(input()))
+        result = tester.user_response(input())
+        print(result)
 
-# test()
+test()
