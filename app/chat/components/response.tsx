@@ -28,14 +28,14 @@ const Response: React.FC<ResponseProps> = ({ prompt }) => {
     useEffect(()=>{
         const fetchResponse = async () => {
             try {
-                const resp = await fetch("http://127.0.0.1:8000/chat",{
+                const resp = await fetch("http://localhost:8000/llm/chat",{
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
                     body: JSON.stringify({ prompt }), // send the prompt string
                 });
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
                 const data = await resp.json();
-                setGeneratedResponse(data.choices?.[0]?.message?.content ?? '');
+                setGeneratedResponse(data.response ?? 'Unable to parse response');
             } catch (err) {
                 console.error('fetchResponse error', err);
                 setGeneratedResponse('Unable to fetch response')

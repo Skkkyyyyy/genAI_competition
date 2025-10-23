@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router'
-import { FlatList, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const MAJORS = [
@@ -25,8 +25,13 @@ export default function TryAMajorIndex() {
   )
 
   return (
-    <SafeAreaView className='flex-1 bg-bg1'>
-      <View className='px-4 py-6'>
+    <SafeAreaView style={styles.scene_parent} className='flex-1 bg-bg1'>
+      <View style={styles.back_button_container}>
+        <TouchableOpacity style={styles.back_button} onPress={() => router.push('../home')} className='px-4 py-2'>
+          <Text className='text-lg font-semibold'>Back</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.major_selection_parent} className='px-4 py-6' >
         <Text className='text-2xl font-bold mb-2'>Try a Major</Text>
         <Text className='text-gray-600 mb-4'>Pick a major to experience a day in the life of a student.</Text>
         <FlatList<{ id: string; label: string }> data={MAJORS} renderItem={renderItem} keyExtractor={(i: { id: string; label: string }) => i.id} />
@@ -34,3 +39,26 @@ export default function TryAMajorIndex() {
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  scene_parent: {
+    alignItems: 'center',
+  },
+  back_button_container: {
+    width: '95%',
+    alignItems: 'flex-start',
+  },
+  back_button: {
+    backgroundColor: '#e2e8f0',
+    borderRadius: 12,
+    margin: 12,
+    width: 80,
+    alignContent: 'flex-start',
+  },
+  major_selection_parent: {
+    backgroundColor: '#e2e8f0',
+    borderRadius: 12,
+    width: '90%',
+    elevation: 2,
+  },
+});

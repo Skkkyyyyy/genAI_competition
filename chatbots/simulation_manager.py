@@ -1,4 +1,4 @@
-from chatbots.career_simulation import CareerSim
+from career_simulation import CareerSim
 
 
 class SimulationManager:

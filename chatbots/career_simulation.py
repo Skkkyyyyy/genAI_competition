@@ -26,4 +26,4 @@ def test():
     for i in range(6):
         print(tester.user_response(input()))
 
-test()
+# test()
