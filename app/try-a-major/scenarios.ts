@@ -48,3 +48,10 @@ End with the line:
 `,
   },
 ]
+
+// Add a minimal default export so expo-router stops warning about missing default export
+export default function ScenariosRoutePlaceholder() {
+  return null
+}
+
+

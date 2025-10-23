@@ -71,3 +71,7 @@ const checkMessage = async (user_id: string, message_id:string) => {
     }
 }
 */
+
+export default function HandleSaveRoutePlaceholder() {
+  return null
+}

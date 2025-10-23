@@ -8,12 +8,10 @@ export default function RootLayout() {
       <Stack.Screen name="(tabs)" options={{headerShown:false}}/>
       <Stack.Screen name="chat/ask" options={{headerShown:false}}/>
       <Stack.Screen name="chat/form" options={{headerShown:false}}/>
-      <Stack.Screen name="auth" options={{headerShown:false}}/>
       <Stack.Screen name="auth/auth" options={{headerShown:false}}/>
       <Stack.Screen name="auth/components/Login" options={{headerShown:false}}/>
       <Stack.Screen name="auth/components/Account" options={{headerShown:false}}/>
       <Stack.Screen name="auth/components/Signup" options={{headerShown:false}}/>
-      <Stack.Screen name="auth/components/ProfileSetup" options={{headerShown:false}}/>
       <Stack.Screen name="profiles/userProfile" options={{headerShown:false}}/>
       <Stack.Screen name="profiles/save" options={{headerShown:false}}/>
       <Stack.Screen name="profiles/editProfile" options={{headerShown:false}}/>
