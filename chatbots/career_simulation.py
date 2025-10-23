@@ -9,11 +9,15 @@ class CareerSim:
         self.situation = situation
         with open('prompts.json', 'r') as prompts_file:
             self.prompts= json.load(prompts_file)
+        self.stage = 0
 
     def initialise_simulation(self):
         self.chatbot_connection.set_preset(self.prompts["Simulation Template"]["Initial"] + self.situation)
 
     def user_response(self, response: str):
+        self.stage += 1
+        if self.stage == 5:
+            return self.chatbot_connection.chatbotResponse(self.prompts["Simulation Template"]["End Simulation"] + response)
         return self.chatbot_connection.chatbotResponse(self.prompts["Simulation Template"]["User Response"] + response)
 
 def test():
