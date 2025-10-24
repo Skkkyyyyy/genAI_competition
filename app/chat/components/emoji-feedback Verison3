@@ -1,0 +1,558 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  Animated,
+  Dimensions,
+  Easing
+} from 'react-native';
+
+const { width } = Dimensions.get('window');
+
+const EmotionAnalyzer = () => {
+  const [userInput, setUserInput] = useState('');
+  const [emotions, setEmotions] = useState({});
+  const [summary, setSummary] = useState('Your emotional analysis will appear here after you share your thoughts.');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  
+  // Animation values
+  const fadeAnim = useState(new Animated.Value(0))[0];
+  const progressAnim = useState(new Animated.Value(0))[0];
+  const emojiAnimations = useState({})[0];
+
+  // Emotion keyword to emoji mapping
+  const emotionMap = {
+    // Positive emotions
+    "happy": "😊",
+    "excited": "😃",
+    "joyful": "😄",
+    "enthusiastic": "🤩",
+    "optimistic": "😊",
+    "confident": "😎",
+    "proud": "🦚",
+    "grateful": "🙏",
+    "hopeful": "🌟",
+    "inspired": "💡",
+    "motivated": "💪",
+    "passionate": "❤️",
+    "curious": "🤔",
+    "interested": "👀",
+    "fascinated": "😲",
+    "amazed": "😮",
+    "surprised": "😲",
+    "relieved": "😌",
+    "satisfied": "😊",
+    "content": "😌",
+    "peaceful": "☮️",
+    "calm": "😌",
+    "relaxed": "😎",
+    "energetic": "⚡",
+    "determined": "💪",
+    "focused": "🎯",
+    "brave": "🦁",
+    "strong": "💪",
+    "creative": "🎨",
+    "intelligent": "🧠",
+    "wise": "🦉",
+    "successful": "🏆",
+    "accomplished": "⭐",
+    "loved": "💖",
+    "supported": "🤝",
+    "understood": "💬",
+    
+    // Negative emotions
+    "sad": "😢",
+    "anxious": "😰",
+    "stressed": "😫",
+    "worried": "😟",
+    "nervous": "😬",
+    "fearful": "😨",
+    "scared": "😱",
+    "afraid": "😨",
+    "confused": "😕",
+    "uncertain": "🤷",
+    "doubtful": "🤔",
+    "hesitant": "😅",
+    "overwhelmed": "😵",
+    "frustrated": "😤",
+    "angry": "😠",
+    "annoyed": "😒",
+    "irritated": "😣",
+    "disappointed": "😞",
+    "discouraged": "😔",
+    "depressed": "😔",
+    "lonely": "😔",
+    "tired": "😴",
+    "exhausted": "😩",
+    "burned": "🔥",
+    "bored": "😑",
+    "indifferent": "😐",
+    "apathetic": "😶",
+    "pessimistic": "👎",
+    "cynical": "😏",
+    "skeptical": "🤨",
+    "jealous": "😒",
+    "envious": "😒",
+    "guilty": "😔",
+    "ashamed": "😳",
+    "embarrassed": "😳",
+    "regretful": "😔",
+    "hurt": "💔",
+    "vulnerable": "🫂",
+    "insecure": "😔",
+    "lost": "🧭",
+    "stuck": "🪤",
+    "trapped": "🔒",
+    "pressured": "🔄",
+    "rushed": "⏩",
+    
+    // Mixed/Neutral emotions
+    "thoughtful": "🤔",
+    "contemplative": "🧘",
+    "reflective": "🪞",
+    "nostalgic": "📻",
+    "sentimental": "💝",
+    "melancholy": "🌧️",
+    "ambivalent": "😐",
+    "torn": "😖",
+    "conflicted": "😣",
+    "unsure": "🤔",
+    "questioning": "❓",
+    "searching": "🔍",
+    "exploring": "🧭",
+    "adventurous": "🗺️",
+    "open-minded": "🧠",
+    "flexible": "🔄",
+    "adaptable": "🦎",
+    "patient": "⏳",
+    "waiting": "⏰",
+    "anticipating": "⏳",
+    "expecting": "👀",
+    "prepared": "✅",
+    "organized": "🗂️",
+    "methodical": "📊",
+    "analytical": "🔍",
+    "logical": "🧩",
+    "practical": "🛠️",
+    "realistic": "📏",
+    "cautious": "⚠️",
+    "careful": "🔍",
+    "meticulous": "🔬",
+    "perfectionist": "✨",
+    "ambitious": "🚀",
+    "driven": "🏃",
+    "competitive": "🥇",
+    "collaborative": "👥",
+    "cooperative": "🤝",
+    "empathetic": "💗",
+    "compassionate": "💝",
+    "kind": "🤗",
+    "generous": "🎁",
+    "helpful": "🆘",
+    "supportive": "🤝"
+  };
+
+  // Function to analyze text and extract emotion keywords
+  const analyzeEmotions = (text) => {
+    const foundEmotions = {};
+    
+    // Check for each emotion keyword in the text
+    for (const [emotion, emoji] of Object.entries(emotionMap)) {
+      // Create a regex to match the whole word
+      const regex = new RegExp(`\\b${emotion}\\b`, 'i');
+      if (regex.test(text)) {
+        foundEmotions[emotion] = emoji;
+      }
+    }
+    
+    return foundEmotions;
+  };
+
+  // Function to handle the analysis
+  const handleAnalyze = () => {
+    if (!userInput.trim()) {
+      alert('Please enter your thoughts before analyzing.');
+      return;
+    }
+    
+    setIsAnalyzing(true);
+    
+    // Reset animations
+    fadeAnim.setValue(0);
+    progressAnim.setValue(0);
+    
+    // Start progress animation
+    Animated.timing(progressAnim, {
+      toValue: 1,
+      duration: 800,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start();
+    
+    // Simulate processing delay
+    setTimeout(() => {
+      const detectedEmotions = analyzeEmotions(userInput);
+      setEmotions(detectedEmotions);
+      
+      // Generate summary based on emotions
+      const positiveCount = Object.keys(detectedEmotions).filter(emotion => 
+        ["happy", "excited", "joyful", "enthusiastic", "optimistic", "confident", 
+         "proud", "grateful", "hopeful", "inspired", "motivated", "passionate"].includes(emotion)
+      ).length;
+      
+      const negativeCount = Object.keys(detectedEmotions).filter(emotion => 
+        ["sad", "anxious", "stressed", "worried", "nervous", "fearful", "scared", 
+         "afraid", "confused", "uncertain", "doubtful", "hesitant"].includes(emotion)
+      ).length;
+      
+      let newSummary = "Based on your text, ";
+      
+      if (positiveCount > negativeCount) {
+        newSummary += "you seem to have mostly positive feelings about your major choices. This is a great sign that you're on the right path!";
+      } else if (negativeCount > positiveCount) {
+        newSummary += "you seem to have some concerns or anxieties about choosing a major. It might help to talk to a career counselor or explore these feelings further.";
+      } else {
+        newSummary += "you have a mix of positive and negative feelings. This is normal when making important decisions like choosing a major.";
+      }
+      
+      setSummary(newSummary);
+      
+      // Fade in results
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }).start();
+      
+      setIsAnalyzing(false);
+      
+      // Reset progress bar after a delay
+      setTimeout(() => {
+        progressAnim.setValue(0);
+      }, 500);
+    }, 800);
+  };
+
+  // Render emoji items with animations
+  const renderEmojiItems = () => {
+    const emotionEntries = Object.entries(emotions);
+    
+    if (emotionEntries.length === 0) {
+      return (
+        <View style={styles.noResults}>
+          <Text style={styles.noResultsText}>
+            No specific emotions detected. Try describing your feelings more explicitly.
+          </Text>
+        </View>
+      );
+    }
+    
+    return emotionEntries.map(([emotion, emoji], index) => {
+      // Create animation for each emoji if it doesn't exist
+      if (!emojiAnimations[emotion]) {
+        emojiAnimations[emotion] = new Animated.Value(0);
+        
+        // Start animation with delay
+        setTimeout(() => {
+          Animated.spring(emojiAnimations[emotion], {
+            toValue: 1,
+            friction: 5,
+            tension: 40,
+            useNativeDriver: true,
+          }).start();
+        }, index * 100);
+      }
+      
+      return (
+        <Animated.View 
+          key={emotion}
+          style={[
+            styles.emojiItem,
+            {
+              opacity: emojiAnimations[emotion],
+              transform: [
+                { 
+                  scale: emojiAnimations[emotion].interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0.8, 1],
+                  })
+                }
+              ]
+            }
+          ]}
+        >
+          <Animated.Text 
+            style={[
+              styles.emoji,
+              {
+                transform: [
+                  {
+                    translateY: emojiAnimations[emotion].interpolate({
+                      inputRange: [0, 0.5, 1],
+                      outputRange: [0, -5, 0],
+                    })
+                  }
+                ]
+              }
+            ]}
+          >
+            {emoji}
+          </Animated.Text>
+          <Text style={styles.keyword}>{emotion}</Text>
+        </Animated.View>
+      );
+    });
+  };
+
+  // Progress bar width interpolation
+  const progressWidth = progressAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0%', '100%'],
+  });
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Career Path Emotion Analyzer</Text>
+        <Text style={styles.subtitle}>Discover your feelings about potential majors</Text>
+      </View>
+      
+      <Text style={styles.description}>
+        Share your thoughts about choosing a major, and we'll analyze your emotions to help you understand your feelings better.
+      </Text>
+      
+      <View style={styles.inputSection}>
+        <TextInput
+          style={styles.textInput}
+          multiline
+          numberOfLines={5}
+          placeholder="Tell us how you feel about choosing a major..."
+          value={userInput}
+          onChangeText={setUserInput}
+        />
+        <Text style={styles.exampleText}>
+          Example: "I'm excited about computer science but anxious about the math requirements."
+        </Text>
+        <TouchableOpacity 
+          style={[styles.analyzeBtn, isAnalyzing && styles.analyzeBtnDisabled]}
+          onPress={handleAnalyze}
+          disabled={isAnalyzing}
+        >
+          <Text style={styles.analyzeBtnText}>
+            {isAnalyzing ? 'Analyzing...' : 'Analyze My Emotions'}
+          </Text>
+        </TouchableOpacity>
+        <View style={styles.progressBarContainer}>
+          <Animated.View 
+            style={[
+              styles.progressBar,
+              { width: progressWidth }
+            ]} 
+          />
+        </View>
+      </View>
+      
+      <Animated.View 
+        style={[
+          styles.resultsSection,
+          {
+            opacity: fadeAnim,
+            transform: [
+              {
+                translateY: fadeAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [20, 0],
+                })
+              }
+            ]
+          }
+        ]}
+      >
+        <Text style={styles.resultsTitle}>Emotion Analysis Results</Text>
+        <ScrollView 
+          style={styles.emojiResults}
+          contentContainerStyle={styles.emojiResultsContent}
+        >
+          {renderEmojiItems()}
+        </ScrollView>
+        
+        <View style={styles.summary}>
+          <Text style={styles.summaryTitle}>Summary</Text>
+          <Text style={styles.summaryText}>{summary}</Text>
+        </View>
+      </Animated.View>
+      
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>
+          Career Path Emotion Analyzer © 2023 | Designed for students exploring their academic futures
+        </Text>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: 20,
+    padding: 20,
+    margin: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    backgroundGradient: 'linear-gradient(to right, #6a11cb, #2575fc)',
+    color: 'transparent',
+    backgroundClip: 'text',
+    marginBottom: 5,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#6a11cb',
+    marginBottom: 10,
+  },
+  description: {
+    color: '#555',
+    lineHeight: 20,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  inputSection: {
+    marginBottom: 20,
+  },
+  textInput: {
+    width: '100%',
+    height: 120,
+    padding: 15,
+    borderWidth: 2,
+    borderColor: '#e0e0e0',
+    borderRadius: 10,
+    fontSize: 16,
+    textAlignVertical: 'top',
+    marginBottom: 10,
+  },
+  exampleText: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  analyzeBtn: {
+    width: '100%',
+    padding: 15,
+    backgroundColor: '#6a11cb',
+    borderRadius: 10,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  analyzeBtnDisabled: {
+    opacity: 0.7,
+  },
+  analyzeBtnText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  progressBarContainer: {
+    height: 4,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 2,
+    marginTop: 10,
+    overflow: 'hidden',
+  },
+  progressBar: {
+    height: '100%',
+    backgroundColor: '#2575fc',
+  },
+  resultsSection: {
+    marginTop: 20,
+  },
+  resultsTitle: {
+    fontSize: 20,
+    color: '#2575fc',
+    marginBottom: 15,
+    fontWeight: 'bold',
+  },
+  emojiResults: {
+    maxHeight: 200,
+    marginBottom: 20,
+  },
+  emojiResultsContent: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  emojiItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f0f8ff',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 50,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  emoji: {
+    fontSize: 20,
+    marginRight: 8,
+  },
+  keyword: {
+    fontWeight: '600',
+    color: '#333',
+  },
+  noResults: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  noResultsText: {
+    color: '#666',
+    textAlign: 'center',
+  },
+  summary: {
+    backgroundColor: '#f9f9f9',
+    padding: 20,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  summaryTitle: {
+    color: '#6a11cb',
+    marginBottom: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  summaryText: {
+    lineHeight: 20,
+  },
+  footer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  footerText: {
+    color: '#777',
+    fontSize: 12,
+    textAlign: 'center',
+  },
+});
+
+export default EmotionAnalyzer;
