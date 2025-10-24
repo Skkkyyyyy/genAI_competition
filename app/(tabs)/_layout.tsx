@@ -70,14 +70,14 @@ export default function TabLayout() {
         <Tabs.Screen 
             name="home" 
             options={{ 
-                title: 'Chat',
+                title: 'Home',
                 headerShown:false,
                 tabBarIcon:({focused}) => (
                     <TabIcon 
                         focused = {focused}
-                        focused_icon= 'chatbubble-sharp' 
-                        icon = 'chatbubble-outline'
-                        title = 'Chat' />
+                        focused_icon= 'home-sharp' 
+                        icon = 'home-outline'
+                        title = 'Home' />
                 ) }} />
         <Tabs.Screen 
             name="profile" 

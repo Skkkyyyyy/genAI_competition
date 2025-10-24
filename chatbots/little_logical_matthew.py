@@ -1,14 +1,33 @@
-from chatbot_connection import Chatbot_Connection as chatbot
 import json
 import random
+import os
+from chatbot_connection import Chatbot_Connection as chatbot
+
 
 class LittleLogicalMatthew:
 
     def __init__(self):
         self.chatbot_connections = {"analysis": chatbot(), "advice": chatbot()}
         self.bot = "analysis"
-        with open('prompts.json', 'r') as prompts_file:
-            self.prompts= json.load(prompts_file)
+        # Load prompts.json using module-relative path first, then fallbacks
+        module_dir = os.path.dirname(__file__)
+        candidate_paths = [
+            os.path.join(module_dir, 'prompts.json'),
+            os.path.join(module_dir, '..', 'chatbots', 'prompts.json'),
+            os.path.join(os.getcwd(), 'chatbots', 'prompts.json'),
+            os.path.join(os.getcwd(), 'prompts.json'),
+        ]
+        loaded = False
+        for p in candidate_paths:
+            try:
+                with open(p, 'r') as prompts_file:
+                    self.prompts = json.load(prompts_file)
+                    loaded = True
+                    break
+            except Exception:
+                continue
+        if not loaded:
+            raise FileNotFoundError(f"prompts.json not found; tried: {candidate_paths}")
         self.initialise_chatbots()
         self.prev = "-1"
 
@@ -102,4 +121,6 @@ def test():
     while True:
         print(test.analyse_response(input()))
 
-test()
+
+if __name__ == '__main__':
+    test()

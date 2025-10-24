@@ -26,13 +26,13 @@ Based on the student's behavioral decisions, generate the next scene with new cl
 - Previous Round Conflict: [Previous event or issue; empty in Round 1]
 
 [Output Format]
-1️⃣ Action Result + New Conflict / Event:
+1. Action Result + New Conflict / Event:
 Describe the result of the student's behavior and naturally introduce the next classroom event or challenge (e.g., student reactions, changes in classroom order, misunderstandings, or unexpected incidents).
 
-2️⃣ Scene Description:
+2. Scene Description:
 Depict the classroom environment and students’ reactions vividly (sounds, movements, atmosphere, expressions, etc.) to create immersion.
 
-3️⃣ Reflection Prompts (Optional):
+3. Reflection Prompts (Optional):
 Provide two open-ended questions that help the student reflect on emotions, stress, or decision-making in teaching.
 For example:
 - Why do you think the students reacted this way?

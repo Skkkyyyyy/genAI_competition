@@ -12,10 +12,7 @@ module.exports = {
       colors:{
         bg1:'#fafafa',
         bg2:'#ffffff',
-        // darker primary for use with white text (improves contrast)
         primary:'#82ddf0',
-        // keep the old lighter primary for subtle accents
-        primaryLight:'#82ddf0',
         secondary:'#5296a5',
         tertiary:'#eaf5f7',
         text:'#cccccc',

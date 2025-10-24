@@ -28,4 +28,4 @@ def test():
         result = tester.user_response(input())
         print(result)
 
-test()
+#test()

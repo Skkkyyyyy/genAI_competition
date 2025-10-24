@@ -1,8 +1,21 @@
 import requests
-import credentials
+import os
+
+# Load credentials in a flexible way so module can be imported as package or script
+try:
+    from chatbots.credentials import DEEPSEEK_API_KEY
+except Exception:
+    try:
+        from .credentials import DEEPSEEK_API_KEY
+    except Exception:
+        try:
+            import credentials
+            DEEPSEEK_API_KEY = getattr(credentials, 'DEEPSEEK_API_KEY', None)
+        except Exception:
+            DEEPSEEK_API_KEY = None
 
 # Set your API key and endpoint
-api_key = credentials.DEEPSEEK_API_KEY # Replace with your actual API key
+api_key = DEEPSEEK_API_KEY  # Replace with your actual API key
 base_url = "https://api.deepseek.com/chat/completions"
 
 class Chatbot_Connection:

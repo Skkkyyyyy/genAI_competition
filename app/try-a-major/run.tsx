@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { ActivityIndicator, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { generateNextScene } from '../../lib/tryAMajor_api'
+import { generateNextScene, initialiseScenario } from '../../lib/tryAMajor_api'
 import AiResponse from './components/AiResponse'
 import FinalSummary from './components/FinalSummary'
 import { SCENARIO_DEFS } from './scenarios'
@@ -19,6 +19,7 @@ export default function RunScenario() {
   const [finished, setFinished] = useState(false)
   const [aiResult, setAiResult] = useState<{ actionResult?: string; sceneChange?: string; reflectionPrompts?: string[] } | null>(null)
 
+  console.log('entered run.tsx with scenarioId:', scenarioId)
   if (!scenario) return (
     <SafeAreaView className='flex-1 bg-bg1 items-center justify-center'>
       <Text>Scenario not found</Text>
@@ -32,6 +33,7 @@ export default function RunScenario() {
     setLoading(true)
     try {
       const isFinal = round >= 5
+      console.log('submitting answer for round', round, 'isFinal:', isFinal)
       const res = await generateNextScene({ scenarioId: scenario.id, round, studentAnswer: answer, previousConflict: '', scenarioPrompt: scenario.prompt, promptType: 'try-a-major', isFinal })
       setAiResult({ actionResult: res.actionResult, sceneChange: res.sceneChange, reflectionPrompts: res.reflectionPrompts })
       if (isFinal) {

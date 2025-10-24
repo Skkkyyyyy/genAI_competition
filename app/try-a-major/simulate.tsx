@@ -1,11 +1,13 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { generateNextScene } from '../../lib/tryAMajor_api';
 import AiResponse from './components/AiResponse';
 import FinalSummary from './components/FinalSummary';
 import { SCENARIO_DEFS, ScenarioDef } from './scenarios';
+import { initialiseScenario } from '../../lib/tryAMajor_api';
+import { ActivityIndicator } from 'react-native';
 
 export default function Simulate() {
   const router = useRouter()
@@ -35,7 +37,17 @@ export default function Simulate() {
               <View className='bg-bg2 p-4 rounded-xl my-2'>
                 <Text className='font-semibold'>{item.scenario}</Text>
                 <Text className='text-sm text-gray-500 mt-1'>{item.question}</Text>
-                <TouchableOpacity className='mt-3 bg-primary rounded-2xl p-2' onPress={() => (router.push as any)({ pathname: '/try-a-major/run', params: { scenario: item.id } }) }>
+                <TouchableOpacity
+                  className='mt-3 bg-primary rounded-2xl p-2'
+                  onPress={async () => {
+                    try {
+                      await initialiseScenario(item.id); // ensure backend is ready (pass the scenario id)
+                      (router.push as any)({ pathname: '/try-a-major/run', params: { scenario: item.id } });
+                    } catch (err) {
+                      console.error('failed to start scenario', err);
+                      // optionally show a toast/error UI
+                    }
+                  }}>
                   <Text className='text-bg2 text-center'>Start simulation</Text>
                 </TouchableOpacity>
               </View>
