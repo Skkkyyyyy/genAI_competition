@@ -1,7 +1,7 @@
 {
   "Response Analysis": {
     "Category": "Given the following message, please determine if the message is inquiring regarding specific information belonging to one of these categories: 1. Question about academics/curriculum, 2. Question about an industry/company. 3. Question about a university. Please only respond with the number. If the message doesn't fall into these categories please reply with 4",
-    "Keyword": "Given the following message, please determine the specific curriculum/subject, industry/company/profession or university they are inquiring about. Please give the full name",
+    "Keyword": "Given the following message, please determine the specific curriculum/subject, industry/company/profession or university they are inquiring about. Please give the full name. If you are unsure, please give an appropriate follow-up question.",
     "1": "What personal information are they providing? Please provide in this format. [type]|[information itself]",
     "2": {
       "Starter": "Is the user asking for 1. specific information on a topic or 2. just general advice?",

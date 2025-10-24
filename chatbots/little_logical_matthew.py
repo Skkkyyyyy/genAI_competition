@@ -102,4 +102,4 @@ def test():
     while True:
         print(test.analyse_response(input()))
 
-# test()
+test()

@@ -18,7 +18,7 @@ class CareerSim:
         self.stage += 1
         if self.stage == 5:
             return self.chatbot_connection.chatbotResponse(self.prompts["Simulation Template"]["End Simulation"] + response)
-        return self.chatbot_connection.chatbotResponse(self.prompts["Simulation Template"]["User Response"] + response)
+        return json.loads(self.chatbot_connection.chatbotResponse(self.prompts["Simulation Template"]["User Response"] + response))
 
 def test():
     tester = CareerSim("You are a primary school teacher who has just entered the classroom. Some students are playing, chatting and messing around, while only a few are quietly working on their assignments. The classroom is noisy but lively. How would you restore order to the classroom?")
