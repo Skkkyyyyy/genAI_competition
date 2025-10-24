@@ -1,0 +1,564 @@
+import React, { useState, useRef, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  Animated,
+  Dimensions,
+  Easing,
+  KeyboardAvoidingView,
+  Platform,
+  Vibration
+} from 'react-native';
+
+const { width } = Dimensions.get('window');
+
+const EmotionChat = () => {
+  const [userInput, setUserInput] = useState('');
+  const [messages, setMessages] = useState([
+    { id: 1, text: "Hello! Share your thoughts about choosing a major, and I'll analyze your emotions.", type: 'system' }
+  ]);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  
+  // Refs
+  const scrollViewRef = useRef();
+  const inputAnim = useRef(new Animated.Value(0)).current;
+  const sendBtnAnim = useRef(new Animated.Value(1)).current;
+  
+  // Emotion keyword to emoji mapping
+  const emotionMap = {
+    // Positive emotions
+    "happy": "😊",
+    "excited": "😃",
+    "joyful": "😄",
+    "enthusiastic": "🤩",
+    "optimistic": "😊",
+    "confident": "😎",
+    "proud": "🦚",
+    "grateful": "🙏",
+    "hopeful": "🌟",
+    "inspired": "💡",
+    "motivated": "💪",
+    "passionate": "❤️",
+    "curious": "🤔",
+    "interested": "👀",
+    "fascinated": "😲",
+    "amazed": "😮",
+    "surprised": "😲",
+    "relieved": "😌",
+    "satisfied": "😊",
+    "content": "😌",
+    "peaceful": "☮️",
+    "calm": "😌",
+    "relaxed": "😎",
+    "energetic": "⚡",
+    "determined": "💪",
+    "focused": "🎯",
+    "brave": "🦁",
+    "strong": "💪",
+    "creative": "🎨",
+    "intelligent": "🧠",
+    "wise": "🦉",
+    "successful": "🏆",
+    "accomplished": "⭐",
+    "loved": "💖",
+    "supported": "🤝",
+    "understood": "💬",
+    
+    // Negative emotions
+    "sad": "😢",
+    "anxious": "😰",
+    "stressed": "😫",
+    "worried": "😟",
+    "nervous": "😬",
+    "fearful": "😨",
+    "scared": "😱",
+    "afraid": "😨",
+    "confused": "😕",
+    "uncertain": "🤷",
+    "doubtful": "🤔",
+    "hesitant": "😅",
+    "overwhelmed": "😵",
+    "frustrated": "😤",
+    "angry": "😠",
+    "annoyed": "😒",
+    "irritated": "😣",
+    "disappointed": "😞",
+    "discouraged": "😔",
+    "depressed": "😔",
+    "lonely": "😔",
+    "tired": "😴",
+    "exhausted": "😩",
+    "burned": "🔥",
+    "bored": "😑",
+    "indifferent": "😐",
+    "apathetic": "😶",
+    "pessimistic": "👎",
+    "cynical": "😏",
+    "skeptical": "🤨",
+    "jealous": "😒",
+    "envious": "😒",
+    "guilty": "😔",
+    "ashamed": "😳",
+    "embarrassed": "😳",
+    "regretful": "😔",
+    "hurt": "💔",
+    "vulnerable": "🫂",
+    "insecure": "😔",
+    "lost": "🧭",
+    "stuck": "🪤",
+    "trapped": "🔒",
+    "pressured": "🔄",
+    "rushed": "⏩",
+    
+    // Mixed/Neutral emotions
+    "thoughtful": "🤔",
+    "contemplative": "🧘",
+    "reflective": "🪞",
+    "nostalgic": "📻",
+    "sentimental": "💝",
+    "melancholy": "🌧️",
+    "ambivalent": "😐",
+    "torn": "😖",
+    "conflicted": "😣",
+    "unsure": "🤔",
+    "questioning": "❓",
+    "searching": "🔍",
+    "exploring": "🧭",
+    "adventurous": "🗺️",
+    "open-minded": "🧠",
+    "flexible": "🔄",
+    "adaptable": "🦎",
+    "patient": "⏳",
+    "waiting": "⏰",
+    "anticipating": "⏳",
+    "expecting": "👀",
+    "prepared": "✅",
+    "organized": "🗂️",
+    "methodical": "📊",
+    "analytical": "🔍",
+    "logical": "🧩",
+    "practical": "🛠️",
+    "realistic": "📏",
+    "cautious": "⚠️",
+    "careful": "🔍",
+    "meticulous": "🔬",
+    "perfectionist": "✨",
+    "ambitious": "🚀",
+    "driven": "🏃",
+    "competitive": "🥇",
+    "collaborative": "👥",
+    "cooperative": "🤝",
+    "empathetic": "💗",
+    "compassionate": "💝",
+    "kind": "🤗",
+    "generous": "🎁",
+    "helpful": "🆘",
+    "supportive": "🤝"
+  };
+
+  // Function to analyze text and extract emotion keywords
+  const analyzeEmotions = (text) => {
+    const foundEmotions = {};
+    
+    // Check for each emotion keyword in the text
+    for (const [emotion, emoji] of Object.entries(emotionMap)) {
+      // Create a regex to match the whole word
+      const regex = new RegExp(`\\b${emotion}\\b`, 'i');
+      if (regex.test(text)) {
+        foundEmotions[emotion] = emoji;
+      }
+    }
+    
+    return foundEmotions;
+  };
+
+  // Function to handle sending a message
+  const handleSendMessage = () => {
+    if (!userInput.trim() || isAnalyzing) return;
+    
+    // Add user message
+    const userMessage = {
+      id: Date.now(),
+      text: userInput,
+      type: 'user'
+    };
+    
+    setMessages(prev => [...prev, userMessage]);
+    setUserInput('');
+    
+    // Scroll to bottom
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true });
+    }, 100);
+    
+    // Show analyzing state
+    setIsAnalyzing(true);
+    
+    // Add typing indicator
+    const typingMessage = {
+      id: Date.now() + 1,
+      text: "Analyzing emotions...",
+      type: 'typing'
+    };
+    
+    setMessages(prev => [...prev, typingMessage]);
+    
+    // Scroll to bottom after adding typing indicator
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true });
+    }, 150);
+    
+    // Simulate analysis delay
+    setTimeout(() => {
+      // Remove typing indicator
+      setMessages(prev => prev.filter(msg => msg.type !== 'typing'));
+      
+      // Analyze emotions
+      const emotions = analyzeEmotions(userInput);
+      
+      // Add system response
+      let systemMessage;
+      
+      if (Object.keys(emotions).length === 0) {
+        systemMessage = {
+          id: Date.now() + 2,
+          text: "I couldn't detect specific emotions in your message. Try using words like 'excited', 'worried', or 'confused'.",
+          type: 'system'
+        };
+      } else {
+        systemMessage = {
+          id: Date.now() + 2,
+          text: "I detected these emotions:",
+          type: 'system',
+          emotions: emotions
+        };
+      }
+      
+      setMessages(prev => [...prev, systemMessage]);
+      setIsAnalyzing(false);
+      
+      // Scroll to bottom after adding response
+      setTimeout(() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+      }, 100);
+    }, 1500);
+  };
+
+  // Input focus animation
+  const animateInputFocus = (focused) => {
+    Animated.timing(inputAnim, {
+      toValue: focused ? 1 : 0,
+      duration: 300,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: false,
+    }).start();
+  };
+
+  // Send button animation
+  const animateSendButton = () => {
+    Vibration.vibrate(10); // Short vibration feedback
+    
+    Animated.sequence([
+      Animated.timing(sendBtnAnim, {
+        toValue: 0.9,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(sendBtnAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  // Render message item
+  const renderMessage = ({ item }) => {
+    if (item.type === 'typing') {
+      return (
+        <View style={[styles.message, styles.systemMessage]}>
+          <Text style={styles.messageText}>{item.text}</Text>
+          <View style={styles.typingDots}>
+            <Animated.View style={[styles.typingDot, { animationDelay: '0s' }]} />
+            <Animated.View style={[styles.typingDot, { animationDelay: '0.2s' }]} />
+            <Animated.View style={[styles.typingDot, { animationDelay: '0.4s' }]} />
+          </View>
+        </View>
+      );
+    }
+    
+    if (item.type === 'user') {
+      return (
+        <View style={[styles.message, styles.userMessage]}>
+          <Text style={styles.messageText}>{item.text}</Text>
+        </View>
+      );
+    }
+    
+    if (item.type === 'system') {
+      return (
+        <View style={[styles.message, styles.systemMessage]}>
+          <Text style={styles.messageText}>{item.text}</Text>
+          {item.emotions && (
+            <View style={styles.emojiContainer}>
+              {Object.entries(item.emotions).map(([emotion, emoji]) => (
+                <Animated.View 
+                  key={emotion} 
+                  style={[styles.emojiItem, { opacity: 0 }]}
+                >
+                  <Text style={styles.emoji}>{emoji}</Text>
+                  <Text style={styles.keyword}>{emotion}</Text>
+                </Animated.View>
+              ))}
+            </View>
+          )}
+        </View>
+      );
+    }
+    
+    return null;
+  };
+
+  // Input border color interpolation
+  const inputBorderColor = inputAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['#e0e0e0', '#6a11cb'],
+  });
+
+  return (
+    <KeyboardAvoidingView 
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+    >
+      <View style={styles.chatContainer}>
+        <View style={styles.chatHeader}>
+          <Text style={styles.chatHeaderText}>Emotion Analysis Chat</Text>
+        </View>
+        
+        <ScrollView
+          ref={scrollViewRef}
+          style={styles.messagesContainer}
+          contentContainerStyle={styles.messagesContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {messages.map((message) => (
+            <View key={message.id}>
+              {renderMessage({ item: message })}
+            </View>
+          ))}
+        </ScrollView>
+        
+        <View style={styles.inputContainer}>
+          <Animated.View 
+            style={[
+              styles.textInputWrapper,
+              {
+                borderColor: inputBorderColor,
+              }
+            ]}
+          >
+            <TextInput
+              style={styles.textInput}
+              multiline
+              placeholder="Type your message here..."
+              value={userInput}
+              onChangeText={setUserInput}
+              onFocus={() => animateInputFocus(true)}
+              onBlur={() => animateInputFocus(false)}
+              editable={!isAnalyzing}
+            />
+          </Animated.View>
+          
+          <Animated.View
+            style={{
+              transform: [{ scale: sendBtnAnim }]
+            }}
+          >
+            <TouchableOpacity 
+              style={[
+                styles.sendButton,
+                (!userInput.trim() || isAnalyzing) && styles.sendButtonDisabled
+              ]}
+              onPress={() => {
+                animateSendButton();
+                handleSendMessage();
+              }}
+              disabled={!userInput.trim() || isAnalyzing}
+            >
+              <Text style={styles.sendButtonText}>↑</Text>
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
+      </View>
+    </KeyboardAvoidingView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  chatContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    margin: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    overflow: 'hidden',
+  },
+  chatHeader: {
+    backgroundColor: '#6a11cb',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  chatHeaderText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  messagesContainer: {
+    flex: 1,
+  },
+  messagesContent: {
+    padding: 15,
+    paddingBottom: 10,
+  },
+  message: {
+    maxWidth: '80%',
+    padding: 12,
+    borderRadius: 18,
+    marginBottom: 10,
+  },
+  userMessage: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#6a11cb',
+    borderBottomRightRadius: 4,
+  },
+  systemMessage: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#f0f2f5',
+    borderBottomLeftRadius: 4,
+  },
+  messageText: {
+    fontSize: 16,
+    lineHeight: 20,
+  },
+  userMessage: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#6a11cb',
+    borderBottomRightRadius: 4,
+  },
+  userMessageText: {
+    color: 'white',
+  },
+  systemMessageText: {
+    color: '#333',
+  },
+  emojiContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 10,
+    gap: 8,
+  },
+  emojiItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  emoji: {
+    fontSize: 16,
+    marginRight: 5,
+  },
+  keyword: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  typingDots: {
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+  typingDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#666',
+    marginHorizontal: 2,
+    opacity: 0.6,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    padding: 15,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    backgroundColor: '#f9f9f9',
+    alignItems: 'flex-end',
+  },
+  textInputWrapper: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    marginRight: 10,
+    backgroundColor: 'white',
+  },
+  textInput: {
+    paddingVertical: 10,
+    fontSize: 16,
+    maxHeight: 100,
+  },
+  sendButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#6a11cb',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  sendButtonDisabled: {
+    backgroundColor: '#ccc',
+  },
+  sendButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
+
+// Add animation for typing dots
+const TypingDotAnimation = StyleSheet.create({
+  dot: {
+    animationKeyframes: {
+      '0%': { opacity: 0.3 },
+      '50%': { opacity: 1 },
+      '100%': { opacity: 0.3 },
+    },
+    animationDuration: '1.5s',
+    animationIterationCount: 'infinite',
+  },
+});
+
+export default EmotionChat;
