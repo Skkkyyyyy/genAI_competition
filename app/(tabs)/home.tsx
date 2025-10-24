@@ -23,7 +23,7 @@ export default function Index() {
       <View className='px-4 space-y-4'>
         <Pressable
           className='mt-10 flex-row items-center bg-white rounded-2xl p-4 shadow border-l-8 border-primary'
-          onPress={() => router.push('/chat/form')}
+          onPress={() => router.push('/quiz/quizHome')}
         >
           <View className='bg-primary rounded-xl p-3 mr-4'>
             <Text className='text-bg2 font-bold text-2xl'>📝</Text>

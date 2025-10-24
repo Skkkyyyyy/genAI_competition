@@ -20,7 +20,8 @@ export type GenerateResult = {
 }
 
 // Determine backend URL based on environment. Adjust these values when testing on device/emulator.
-const LOCALHOST = 'http://10.68.2.155:8000'
+// const LOCALHOST = 'http://10.68.2.155:8000'
+const LOCALHOST = 'http://0.0.0.0:8000'
 const ANDROID_EMULATOR = 'http://10.0.2.2:8000'
 
 function getBackendUrl(): string {
@@ -83,7 +84,7 @@ export async function generateNextScene(p: GenerateParams): Promise<GenerateResu
 
 export async function initialiseScenario(scenario: string) {
 	try {
-		await fetch ("http://10.68.2.155:8000/sim/start_sim",{
+		await fetch (LOCALHOST,{
 			method:"POST",
 			headers:{"Content-Type":"application/json"},
 			body: JSON.stringify({ scenario_id: scenario }), // send the scenario id

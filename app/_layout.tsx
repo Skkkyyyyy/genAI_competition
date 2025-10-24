@@ -18,6 +18,9 @@ export default function RootLayout() {
       <Stack.Screen name="try-a-major/index" options={{headerShown:false}}/>
       <Stack.Screen name="try-a-major/simulate" options={{headerShown:false}}/>
       <Stack.Screen name="try-a-major/run" options={{headerShown:false}}/>
+      <Stack.Screen name="quiz/quizQuestions" options={{headerShown:false}}/>
+      <Stack.Screen name="quiz/quizHome" options={{headerShown:false}}/>
+      <Stack.Screen name="quiz/quizEnd" options={{headerShown:false}}/>
     </Stack>
   );
 }

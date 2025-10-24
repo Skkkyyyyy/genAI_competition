@@ -6,10 +6,20 @@ export default function quizHome() {
         <View style={styles.scene_parent}>
             <View style={styles.back_button_parent}>
                 <TouchableOpacity style={styles.back_button_touchable} onPress={() => router.push('/home')}>
-                    <Text className='text-lg font-semibold' >Back</Text>
+                    <Text className='text-white text-lg font-semibold' >Back</Text>
                 </TouchableOpacity>
             </View>
-            <Text>Quiz Home</Text>
+            <View style={{height: "10%"}}></View>
+            <View style={styles.quiz_block_parent}>
+                <Text style={styles.quiz_title_text}>Major Recommendation Quiz</Text>
+                <Text className='text-center mt-4 mx-4 text-gray-700'>Answer a few questions to get personalized major and career recommendations tailored to your interests and strengths.</Text>
+                <TouchableOpacity
+                    className='mt-8 bg-primary rounded-2xl p-3 px-6'
+                    onPress={() => router.push('/quiz/quizQuestions')}
+                >
+                    <Text className='text-white text-lg font-semibold'>Start Quiz</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -20,18 +30,32 @@ const styles = StyleSheet.create({
         backgroundColor:'#f0f0f0',
         width: '100%',
         alignContent: 'center',
-        margin: 10,
     },
     back_button_parent:{
         width: 80,
         height: 30,
         borderRadius: 8,
         backgroundColor: '#82ddf0',
+        margin: "5%",
     },
     back_button_touchable:{
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
         width: '100%',
+    },
+    quiz_title_text:{
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginHorizontal: '5%',
+        marginTop: '2%',
+    },
+    quiz_block_parent:{
+        alignItems: 'center',
+        backgroundColor: "#e2e8f0",
+        borderRadius: 12,
+        height: "50%",
+        marginHorizontal: "5%",
     },
 });
