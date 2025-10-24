@@ -1,4 +1,3 @@
-import * as FileSystem from 'expo-file-system';
 import { router } from "expo-router";
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -18,41 +17,43 @@ type Question = {
   options: Option[];
 };
 
+// Add a type for the quiz results
+type QuizResults = {
+  timestamp: string;
+  answers: {
+    questionId: number;
+    dimension: string;
+    selected: {
+      text_en: string;
+      text_zh: string;
+      score: Record<string, number>;
+    };
+  }[];
+};
+
 export default function QuizQuestions() {
     const [currentQuestion, setCurrentQuestion] = useState<number>(0);
     const [answers, setAnswers] = useState<Record<number, Option>>({});
     const questions: Question[] = quizData.questions || [];
 
-    // Save choices to local JSON file
-    const saveChoicesToFile = async (answersMap: Record<number, Option>) => {
-      try {
+    const prepareResults = (answersMap: Record<number, Option>): QuizResults => {
         const items = Object.entries(answersMap).map(([qIndex, option]) => {
-          const qi = Number(qIndex);
-          return {
-            questionId: questions[qi]?.id ?? qi,
-            dimension: questions[qi]?.dimension ?? null,
-            selected: {
-              text_en: option.text_en,
-              text_zh: option.text_zh,
-              // include index/score if you want:
-              score: option.score ?? {},
+            const qi = Number(qIndex);
+            return {
+                questionId: questions[qi]?.id ?? qi,
+                dimension: questions[qi]?.dimension ?? null,
+                selected: {
+                    text_en: option.text_en,
+                    text_zh: option.text_zh,
+                    score: option.score ?? {},
+                }
             }
-          }
         });
 
-        const payload = {
-          createdAt: new Date().toISOString(),
-          totalQuestions: questions.length,
-          answers: items
+        return {
+            timestamp: new Date().toISOString(),
+            answers: items,
         };
-
-        const fileUri = `quiz_choices.json`;
-        // Try to read existing file and append (optional). Here we overwrite for simplicity.
-        await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(payload, null, 2), { encoding: FileSystem.EncodingType.UTF8 });
-        console.log('Saved quiz choices to', fileUri);
-      } catch (err) {
-        console.error('Failed to save quiz choices', err);
-      }
     };
 
     const handleAnswer = (option: Option) => {
@@ -60,14 +61,6 @@ export default function QuizQuestions() {
             ...prev,
             [currentQuestion]: option
         }));
-
-        // Quiz complete: save choices and navigate or show result
-        (async () => {
-          await saveChoicesToFile({
-            ...answers,
-            [currentQuestion]: option
-          });
-        })();
     };
 
     const handlePrev = () => {
@@ -78,9 +71,17 @@ export default function QuizQuestions() {
 
     const handleNext = () => {
         if (currentQuestion < questions.length - 1) {
-            setCurrentQuestion(prev => prev + 1);
-        } else {
-            router.push('/quiz/quizHome');
+            if (answers[currentQuestion] != null) {
+                setCurrentQuestion(prev => prev + 1);
+            } 
+        }
+        else {
+            // Quiz complete - prepare results and navigate
+            const results = prepareResults(answers);
+            router.push({
+                pathname: '/quiz/quizEnd',
+                params: { results: JSON.stringify(results) }
+            });
         }
     };
 
