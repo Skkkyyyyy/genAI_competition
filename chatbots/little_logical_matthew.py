@@ -45,14 +45,14 @@ class LittleLogicalMatthew:
     #
 
     def analyse_response(self, message: str):
-        category = self.call_chatbot(self.prompts['Response Analysis']['Category'] + message, "analysis")
-        # print(category)
-
-        if category == "4":
-            return self.call_chatbot(message, "advice")
-
-        keyword = self.call_chatbot(self.prompts["Response Analysis"]["Keyword"] + message, "analysis")
-        print(keyword)
+        # category = self.call_chatbot(self.prompts['Response Analysis']['Category'] + message, "analysis")
+        #
+        # if category == "4":
+        #     return self.call_chatbot(message, "advice")
+        #
+        # keyword = self.call_chatbot(self.prompts["Response Analysis"]["Keyword"] + message, "analysis")
+        # print(keyword)
+        return self.call_chatbot(message, "advice")
 
         # if category == "-1": return self.prompts["Conversation Template"]["Request Clarification"][random.randint(len(self.prompts["Conversation Template"]["Request Clarification"]))]
         #

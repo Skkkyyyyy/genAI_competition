@@ -186,3 +186,12 @@ def smart_search(keyword: str) -> Dict[str, Any]:
     # --- 最终结果 ---
     print(f"意图判断: 未找到相关信息。")
     return {"intent": "not_found", "query": keyword, "message": f"抱歉，未找到与 '{keyword}' 相关的专业、课程或职业信息。"}
+
+def test():
+    while True:
+        user = input()
+        if user == "break":
+            break
+        smart_search(user)
+
+test()
