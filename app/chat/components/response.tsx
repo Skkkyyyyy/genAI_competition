@@ -2,7 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Octicons from '@expo/vector-icons/Octicons';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { supabase } from '../../../lib/supabase';
+import { supabase } from '../../../lib/frontend_supa';
 import { deleteMessage, insertMessage } from './handleSave';
 
 type ResponseProps = {

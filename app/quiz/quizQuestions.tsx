@@ -156,9 +156,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f0f0f0',
         padding: 16,
+        marginTop: 40,
     },
     backButtonContainer: {
         marginBottom: 20,
+        marginTop: 10,
     },
     backButton: {
         backgroundColor: '#82ddf0',
@@ -182,10 +184,10 @@ const styles = StyleSheet.create({
     },
     prevButton: {
         backgroundColor: '#82ddf0',
-        padding: 10,
+        padding: 5,
         borderRadius: 8,
-        width: 40,
-        height: 30,
+        width: 60,
+        height: 36,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -196,16 +198,16 @@ const styles = StyleSheet.create({
     },
     nextButton: {
         backgroundColor: '#82ddf0',
-        padding: 10,
+        padding: 5,
         borderRadius: 8,
-        width: 40,
-        height: 30,
+        width: 60,
+        height: 36,
         alignItems: 'center',
         justifyContent: 'center',
     },
     nextButtonText: {
         color: 'white',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '600',
     },
     progressContainer: {
@@ -228,6 +230,7 @@ const styles = StyleSheet.create({
     },
     questionContainer: {
         marginBottom: 24,
+        marginTop: 16,
     },
     questionText: {
         fontSize: 20,

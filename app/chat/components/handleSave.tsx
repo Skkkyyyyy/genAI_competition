@@ -1,4 +1,4 @@
-import { supabase } from '../../../lib/supabase';
+import { supabase } from '../../../lib/frontend_supa';
 
 export async function insertMessage(user_id: string, question:string, response:string) {
     try{

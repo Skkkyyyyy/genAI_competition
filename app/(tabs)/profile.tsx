@@ -1,5 +1,5 @@
 // app/(tabs)/profile.tsx
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/frontend_supa";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import GuestProfile from "../profiles/guestProfile";
@@ -33,5 +33,5 @@ export default function ProfileTab() {
     );
   }
 
-  return user ? <UserProfile /> : <GuestProfile />;
+  return <UserProfile />;
 }

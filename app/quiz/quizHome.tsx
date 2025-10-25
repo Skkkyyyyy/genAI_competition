@@ -12,7 +12,7 @@ export default function quizHome() {
             <View style={{height: "10%"}}></View>
             <View style={styles.quiz_block_parent}>
                 <Text style={styles.quiz_title_text}>Major Recommendation Quiz</Text>
-                <Text className='text-center mt-4 mx-4 text-gray-700'>Answer a few questions to get personalized major and career recommendations tailored to your interests and strengths.</Text>
+                <Text className='text-base font-normal text-center mt-4 mx-4 text-gray-700'>Answer a few questions to get personalized major and career recommendations tailored to your interests and strengths.</Text>
                 <TouchableOpacity
                     className='mt-8 bg-primary rounded-2xl p-3 px-6'
                     onPress={() => router.push('/quiz/quizQuestions')}
@@ -33,10 +33,13 @@ const styles = StyleSheet.create({
     },
     back_button_parent:{
         width: 80,
-        height: 30,
+        height: 40,
         borderRadius: 8,
         backgroundColor: '#82ddf0',
-        margin: "5%",
+        marginTop: 60,
+        marginBottom: 5,
+        marginLeft: 20,
+        padding: 5,
     },
     back_button_touchable:{
         alignItems: 'center',
@@ -45,11 +48,12 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     quiz_title_text:{
-        fontSize: 30,
+        fontSize: 34,
         fontWeight: 'bold',
         textAlign: 'center',
         marginHorizontal: '5%',
         marginTop: '2%',
+        padding: 30,
     },
     quiz_block_parent:{
         alignItems: 'center',

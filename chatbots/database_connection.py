@@ -1,6 +1,9 @@
 import os
 from typing import List, Dict, Any, Optional, Union
 from supabase import create_client, Client
+from dotenv import load_dotenv
+
+load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "https://fknvdbcarwguzshzbise.supabase.co")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY",

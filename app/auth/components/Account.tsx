@@ -2,7 +2,7 @@ import { Button, Input } from '@rneui/themed'
 import { Session } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
-import { supabase } from '../../../lib/supabase'
+import { supabase } from '../../../lib/frontend_supa'
 
 export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)

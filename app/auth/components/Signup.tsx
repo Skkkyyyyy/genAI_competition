@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Alert, AppState, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { supabase } from '../../../lib/supabase'
+import { supabase } from '../../../lib/frontend_supa'
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
 // `onAuthStateChange` events with the `TOKEN_REFRESHED` or `SIGNED_OUT` event

@@ -6,6 +6,7 @@ import { generateNextScene, initialiseScenario } from '../../lib/tryAMajor_api'
 import AiResponse from './components/AiResponse'
 import FinalSummary from './components/FinalSummary'
 import { SCENARIO_DEFS } from './scenarios'
+import { StyleSheet } from 'react-native'
 
 export default function RunScenario() {
   const params = useLocalSearchParams() as { scenario?: string }
@@ -54,17 +55,17 @@ export default function RunScenario() {
         <ScrollView>
       <View>
         <View className='flex-row justify-between items-center mb-3'>
-          <TouchableOpacity onPress={() => router.back()} className='px-3 py-2 bg-secondary rounded-2xl'>
-            <Text className='text-white'>Back</Text>
+          <TouchableOpacity onPress={() => (router.back())} className='px-4 py-2 bg-primary rounded-xl'>
+            <Text className='text-white font-bold text-lg'>Back</Text>
           </TouchableOpacity>
-          <Text className='text-sm text-gray-500'>Round {round}</Text>
+          <Text className='py-2 text-lg text-gray-500 font-bold justify-center'>Round {round}</Text>
         </View>
 
-        <Text className='text-xl font-bold mb-2'>{scenario.scenario}</Text>
-        <Text className='text-sm text-gray-600 mb-4'>{scenario.question}</Text>
+        <Text className='text-xl font-bold mb-2 mt-5 mx-1'>{scenario.scenario}</Text>
+        <Text className='text-lg text-gray-600 mb-4 mx-1'>{scenario.question}</Text>
 
         <View className='bg-bg2 p-3 rounded-2xl'>
-          <Text className='text-sm text-gray-700 mb-2'>Your response</Text>
+          <Text className='text-base text-gray-700 m-2'>Your response</Text>
           <TextInput
             multiline
             value={answer}
@@ -76,20 +77,20 @@ export default function RunScenario() {
           />
 
           <View className='flex-row space-x-3 mt-3'>
-            <TouchableOpacity onPress={() => router.back()} className='px-4 py-2 rounded-2xl bg-secondary'>
-              <Text className='text-white'>Cancel</Text>
+            <TouchableOpacity onPress={() => router.back()} className='px-4 py-2 rounded-xl bg-secondary '>
+              <Text className='text-white text-center text-lg font-bold '>Cancel</Text>
             </TouchableOpacity>
             {!finished ? (
-              <TouchableOpacity onPress={submitAnswer} className='ml-2 px-4 py-2 rounded-2xl bg-primary'>
-                {loading ? <ActivityIndicator color='#fff' /> : <Text className='text-bg2 font-bold'>Submit decision</Text>}
+              <TouchableOpacity onPress={submitAnswer} className='ml-2 px-4 py-2 rounded-xl bg-primary'>
+                {loading ? <ActivityIndicator color='#fff' /> : <Text className='text-white text-center text-lg font-bold'>Submit</Text>}
               </TouchableOpacity>
             ) : (
               <View className='flex-row space-x-2'>
-                <TouchableOpacity onPress={() => { setRound(1); setAnswer(''); setAiResult(null); setFinished(false); }} className='px-4 py-2 rounded-2xl bg-primary'>
-                  <Text className='text-bg2 font-bold'>Restart</Text>
+                <TouchableOpacity onPress={() => { setRound(1); setAnswer(''); setAiResult(null); setFinished(false); }} className='ml-2 px-4 py-2 rounded-xl bg-primary'>
+                  <Text className='text-bg2 text-center text-lg font-bold'>Restart</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => router.back()} className='px-4 py-2 rounded-2xl bg-secondary'>
-                  <Text className='text-white'>Done</Text>
+                <TouchableOpacity onPress={() => router.back()} className='px-4 py-2 rounded-xl bg-primary ml-2'>
+                  <Text className='text-white text-center text-lg font-bold'>Done</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -108,3 +109,28 @@ export default function RunScenario() {
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  scene_parent: {
+    alignItems: 'center',
+  },
+  back_button_container: {
+    width: '95%',
+    alignItems: 'flex-start',
+    padding: 5,
+    borderRadius: 8,
+  },
+  back_button: {
+    backgroundColor: '#e2e8f0',
+    borderRadius: 12,
+    margin: 12,
+    width: 80,
+    alignContent: 'flex-start',
+  },
+  major_selection_parent: {
+    backgroundColor: '#e2e8f0',
+    borderRadius: 12,
+    width: '90%',
+    elevation: 2,
+  },
+});

@@ -1,6 +1,7 @@
+import { search_major } from '@/lib/chat_api';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import quizData from '../../chatbots/major_rec_quiz.json';
 
 type QuizResults = {
@@ -17,6 +18,8 @@ type QuizResults = {
 };
 
 export default function QuizEnd() {
+  const [loading, setLoading] = useState(false);
+  const [majors, setMajors] = useState<Array<{ category?: string; description?: string }>>([]);
   const { results } = useLocalSearchParams<{ results?: string }>();
   const quizResults: QuizResults | null = results ? JSON.parse(results) : null;
   const recommendedMajor = "";
@@ -77,18 +80,35 @@ export default function QuizEnd() {
 
   const handleFinish = () => {
     // go to home or main screen
-    router.push('/');
+    router.push('/(tabs)/home');
   };
 
   const handleGoBack = () => {
     router.back();
   };
 
-  const [showResult, setShowResult] = useState(false);
+  const [showResult, setShowResult] = useState(true);
   const toggleShowResult = () => {
     setShowResult(prev => true);
   }
 
+  const faculty = overallTop[0] ?? '—'  // for clarity
+  useEffect(() => {
+        const fetchMajors = async () => {
+        if (!faculty) return
+        setLoading(true)
+        try {
+          const res = await search_major(faculty)   // expect array of majors
+          setMajors(res || [])
+        } catch (err) {
+          console.error('AI error', err)
+        } finally {
+          setLoading(false)
+        }
+      }
+      fetchMajors()
+    }, [faculty])
+      
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
@@ -100,7 +120,7 @@ export default function QuizEnd() {
           <View style={{ alignItems: 'center' }}>
             <Text style={styles.scene_result}>{recommendedMajor}</Text>
             <View style={styles.result_container}>
-            <Text style={{ fontWeight: '700', alignItems: 'center', fontSize: 22 }}>Overall totals</Text>
+            <Text style={{ fontWeight: '700', alignItems: 'center', fontSize: 22, padding:12 }}>Overall totals</Text>
             {Object.entries(totals).length === 0 ? (
                 <Text>No totals</Text>
             ) : (
@@ -111,6 +131,23 @@ export default function QuizEnd() {
                 </View>
             )}
             </View>
+             <View>
+              {loading && <ActivityIndicator className="mt-5" size="small" color="#0000ff" />}
+                {!loading && majors.length > 0 && (
+                  <View style={{ marginTop: 20 }}>
+                    <Text style={{ fontWeight: '700', alignItems: 'center', fontSize: 22, padding:12 }}>Recommended Majors:</Text>
+                    {majors.map((m, index) => (
+                      <View key={index} style={{ backgroundColor: '#fff', padding: 10, borderRadius: 8, marginBottom: 8, borderWidth: 1, borderColor: '#e6e6e6' }}>
+                        <Text style={{ fontSize: 16, fontWeight: '700' }}>{m.category ?? 'Unknown major'}</Text>
+                        {m.description ? <Text style={{ fontSize: 14, color: '#444' }}>{m.description}</Text> : null}
+                      </View>
+                      ))}
+                  </View>
+                )}
+                {!loading && majors.length === 0 && (
+                  <Text style={{ marginTop: 20, fontStyle: 'italic' }}>No major recommendations available.</Text>
+                )}
+          </View>
           </View>
           ) : ( 
             <TouchableOpacity style={styles.scene_button} onPress={toggleShowResult}>
@@ -146,12 +183,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
+    marginTop: 30,
   },
   scene_title: {
     fontSize: 36,
     fontWeight: '700',
     color: '#083344',
-    marginBottom: 8,
+    marginTop: 12,
   },
   scene_result: {
     color: '#083344',
@@ -161,14 +199,14 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   scene_button: {
-    marginTop: 8,
     backgroundColor: '#82ddf0',
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 18,
     borderRadius: 8,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 20,
   },
   scene_button_text: {
     color: 'white',

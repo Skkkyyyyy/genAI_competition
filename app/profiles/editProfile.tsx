@@ -3,7 +3,7 @@ import { router } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { supabase } from '../../lib/supabase'
+import { supabase } from '../../lib/frontend_supa'
 
 const editProfile = () => {
     const [nickname, setNickname] = useState('')

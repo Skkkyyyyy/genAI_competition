@@ -21,7 +21,7 @@ export type GenerateResult = {
 
 // Determine backend URL based on environment. Adjust these values when testing on device/emulator.
 // const LOCALHOST = 'http://10.68.2.155:8000'
-const LOCALHOST = 'http://0.0.0.0:8000'
+const LOCALHOST = 'http://192.168.50.64:8000'
 const ANDROID_EMULATOR = 'http://10.0.2.2:8000'
 
 function getBackendUrl(): string {
@@ -84,17 +84,17 @@ export async function generateNextScene(p: GenerateParams): Promise<GenerateResu
 
 export async function initialiseScenario(scenario: string) {
 	try {
-		await fetch (LOCALHOST,{
+		await fetch ("http://192.168.50.64:8000/sim/start_sim",{
 			method:"POST",
 			headers:{"Content-Type":"application/json"},
 			body: JSON.stringify({ scenario_id: scenario }), // send the scenario id
-		}
-		)
+		})
 	} catch (err) {
 		console.error('initialiseScenario error', err);
 		throw err;
 	}
 }
+
 function buildPromptForChat(p: GenerateParams) {
 	return `Scenario: ${p.scenarioId}\nRound: ${p.round}\nStudentAnswer: ${p.studentAnswer}\nPreviousConflict: ${p.previousConflict || ''}\n\nPlease return in the following format:\n1) Action result + new conflict/event:\n2) Scene change description:\n3) Two reflection questions:`}
 
