@@ -12,7 +12,7 @@ features are powered by the DeepSeek AI Model API.
 ## Running the app ##
 To properly use the app in this format, the frontend and backend must be individually started.
 
-# Frontend #
+### Frontend ###
 1. Navigate to the root directory, genAI_competition
 2. Run the command 'npx expo start' (It may require you to install dependencies in which case use 'npm install' followed by
    whichever dependencies are required.
@@ -20,7 +20,7 @@ To properly use the app in this format, the frontend and backend must be individ
    versions require a pre-installed emulator but if you already have one then click 'a' or 'i' respectively to start the app
    in your installed emulator.
 
-# Backend #
+### Backend ###
 1. Navigate to the chatbots directory within the root directory.
 2. Run the command 'python3 interface.py' (again it may require you to first install some dependencies so use the same method)
 3. Once started, it will output a series of console messages stating that it has started up.
