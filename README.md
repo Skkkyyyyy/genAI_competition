@@ -1,50 +1,28 @@
-# Welcome to your Expo app 👋
+## Welcome to Career Guru ##
+Project Name: Career Guru
+Description:
+Career Guru is a mobile app developed in TypeScript and Python. The frontend is primarily developed in React Native while the 
+backend is coded in Python and connected via a FastAPI server. 
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+The primary objective of the app is to provide a platform for young adults ages 15-20 to discover their future career path. It
+includes a chatbot providing friendly, empathetic conversation and advice, specially designed quizes to identify their strengths
+and various resources to learn more and even experience about their possible future careers/professions. A majority of the 
+features are powered by the DeepSeek AI Model API.
 
-## Get started
+## Running the app ##
+To properly use the app in this format, the frontend and backend must be individually started.
 
-1. Install dependencies
+# Frontend #
+1. Navigate to the root directory, genAI_competition
+2. Run the command 'npx expo start' (It may require you to install dependencies in which case use 'npm install' followed by
+   whichever dependencies are required.
+3. Click 'w' to start the web version and it will open the app in a web emulator on your browser. The Android and iOS
+   versions require a pre-installed emulator but if you already have one then click 'a' or 'i' respectively to start the app
+   in your installed emulator.
 
-   ```bash
-   npm install
-   ```
+# Backend #
+1. Navigate to the chatbots directory within the root directory.
+2. Run the command 'python3 interface.py' (again it may require you to first install some dependencies so use the same method)
+3. Once started, it will output a series of console messages stating that it has started up.
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Ensure you have the backend running, otherwise the majority of the features on the app will not function properly.
