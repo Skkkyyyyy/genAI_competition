@@ -26,3 +26,7 @@ To properly use the app in this format, the frontend and backend must be individ
 3. Once started, it will output a series of console messages stating that it has started up.
 
 Ensure you have the backend running, otherwise the majority of the features on the app will not function properly.
+
+### Note ###
+Currently in \chatbots\credentials.py the constant DEEPSEEK_API_KEY has been set to "placeholder" for security reasons. For testing, please replace "placeholder" with your own DeepSeek API key or contact the developers. Thank you.
+DeepSeek API Platform: https://platform.deepseek.com
