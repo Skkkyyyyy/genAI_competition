@@ -1,1 +1,1 @@
-DEEPSEEK_API_KEY = 'sk-8167f8f42713430f8cef268d0d9b3d53'
+DEEPSEEK_API_KEY = "placeholder"
